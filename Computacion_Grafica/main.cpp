@@ -1,12 +1,14 @@
 #include <glad/glad.h>
-#include <glfw3.h>
-#include <iostream>;
+#include <GLFW/glfw3.h>
+#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <vector>
+
+//modo prueba commit 
 
 using namespace std;
 using namespace glm;
