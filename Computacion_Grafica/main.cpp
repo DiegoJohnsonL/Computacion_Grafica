@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <vector>
+#include "stb_image.h"
 
 using namespace std;
 using namespace glm;
@@ -256,9 +257,49 @@ int main() {
 		0, 6, 5,
 		0, 1, 6
 	};*/
+	float vertices[] = {
+		-1.0f,-1.0f,-1.0f,1.0,0.0,0.0, 0.000059f, 1.0f - 0.000004f,
+		  -1.0f,-1.0f, 1.0f,1.0,0.0,0.0,0.000103f, 1.0f - 0.336048f,
+		  -1.0f, 1.0f, 1.0f,1.0,0.0,0.0, 0.335973f, 1.0f - 0.335903f,
+		  1.0f, 1.0f,-1.0f,1.0,0.0,0.0, 1.000023f, 1.0f - 0.000013f,
+		  -1.0f,-1.0f,-1.0f,1.0,0.0,0.0,0.667979f, 1.0f - 0.335851f,
+		  -1.0f, 1.0f,-1.0f,1.0,0.0,0.0, 0.999958f, 1.0f - 0.336064f,
+		  1.0f,-1.0f, 1.0f,1.0,0.0,0.0,0.667979f, 1.0f - 0.335851f,
+		  -1.0f,-1.0f,-1.0f,1.0,0.0,0.0,0.336024f, 1.0f - 0.671877f,
+		  1.0f,-1.0f,-1.0f,1.0,0.0,0.0,0.667969f, 1.0f - 0.671889f,
+		  1.0f, 1.0f,-1.0f,1.0,0.0,0.0,1.000023f, 1.0f - 0.000013f,
+		  1.0f,-1.0f,-1.0f,1.0,0.0,0.0,0.668104f, 1.0f - 0.000013f,
+		  -1.0f,-1.0f,-1.0f,1.0,0.0,0.0,0.667979f, 1.0f - 0.335851f,
+		  -1.0f,-1.0f,-1.0f,1.0,0.0,0.0,0.000059f, 1.0f - 0.000004f,
+		  -1.0f, 1.0f, 1.0f,1.0,0.0,0.0,0.335973f, 1.0f - 0.335903f,
+		  -1.0f, 1.0f,-1.0f,1.0,0.0,0.0,0.336098f, 1.0f - 0.000071f,
+		  1.0f,-1.0f, 1.0f,1.0,0.0,0.0,0.667979f, 1.0f - 0.335851f,
+		  -1.0f,-1.0f, 1.0f,1.0,0.0,0.0,0.335973f, 1.0f - 0.335903f,
+		  -1.0f,-1.0f,-1.0f,1.0,0.0,0.0,0.336024f, 1.0f - 0.671877f,
+		  -1.0f, 1.0f, 1.0f,1.0,0.0,0.0,1.000004f, 1.0f - 0.671847f,
+		  -1.0f,-1.0f, 1.0f,1.0,0.0,0.0,0.999958f, 1.0f - 0.336064f,
+		  1.0f,-1.0f, 1.0f,1.0,0.0,0.0,0.667979f, 1.0f - 0.335851f,
+		  1.0f, 1.0f, 1.0f,1.0,0.0,0.0,0.668104f, 1.0f - 0.000013f,
+		  1.0f,-1.0f,-1.0f,1.0,0.0,0.0,0.335973f, 1.0f - 0.335903f,
+		  1.0f, 1.0f,-1.0f,1.0,0.0,0.0,0.667979f, 1.0f - 0.335851f,
+		  1.0f,-1.0f,-1.0f,1.0,0.0,0.0,0.335973f, 1.0f - 0.335903f,
+		  1.0f, 1.0f, 1.0f,1.0,0.0,0.0,0.668104f, 1.0f - 0.000013f,
+		  1.0f,-1.0f, 1.0f,1.0,0.0,0.0,0.336098f, 1.0f - 0.000071f,
+		  1.0f, 1.0f, 1.0f,1.0,0.0,0.0,0.000103f, 1.0f - 0.336048f,
+		  1.0f, 1.0f,-1.0f,1.0,0.0,0.0,0.000004f, 1.0f - 0.671870f,
+		  -1.0f, 1.0f,-1.0f,1.0,0.0,0.0,0.336024f, 1.0f - 0.671877f,
+		  1.0f, 1.0f, 1.0f,1.0,0.0,0.0,0.000103f, 1.0f - 0.336048f,
+		  -1.0f, 1.0f,-1.0f,1.0,0.0,0.0,0.336024f, 1.0f - 0.671877f,
+		  -1.0f, 1.0f, 1.0f,1.0,0.0,0.0,0.335973f, 1.0f - 0.335903f,
+		  1.0f, 1.0f, 1.0f,1.0,0.0,0.0,0.667969f, 1.0f - 0.671889f,
+		  -1.0f, 1.0f, 1.0f,1.0,0.0,0.0,1.000004f, 1.0f - 0.671847f,
+		  1.0f,-1.0f, 1.0f,1.0,0.0,0.0,0.667979f, 1.0f - 0.335851f
+	};
 
 	//Enviando la geometria al gpu: Definiendo los buffers (Vertex Array Objects y Vertex Buffer Objets)
 	//VAO  BAO
+
+
 	GLuint id_array_vertices, id_array_buffers, id_element_buffer;
 	glGenVertexArrays(1, &id_array_vertices);
 	glGenBuffers(1, &id_array_buffers);
@@ -278,14 +319,38 @@ int main() {
 	//INDICANDO LAS ESPECIFICACIONES DE LOS ATRIBUTOS
 
 	//(Atributo location = n del vertex shader, cantidad de datos del vec en locations 0, flotantes , false,  moverte n atributos en el arreglo de vertices, empezar en la posicion n despues del puntero)
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);	
-
-	//color TO-DO
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	// color attribute
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+	// texture coord attribute
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+
+	unsigned int texture[2];
+	glGenTextures(1, &texture[0]);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	// set the texture wrapping/filtering options (on the currently bound texture object)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// load and generate the texture
+	int width, height, nrChannels;
+	// The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
+	unsigned char* data = stbi_load("wall.jpg", &width, &height, &nrChannels, 0);
+	if (data)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "Failed to load texture" << std::endl;
+	}
+	stbi_image_free(data);
+
 
 	float x = 0.0; float y = 0.0; float dx = 0.003; float dy = 0.003;
 	float red; float green; float blue;
@@ -297,16 +362,20 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		programa_shaders.usar();
-		//creando una matriz homografica
-		mat4 transformacion = mat4(1.0);
+		glm::mat4 Model = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 Projection = glm::perspective(45.0f, 1.0f * ANCHO / ALTO, 0.1f, 100.0f);
+		glm::mat4 View = glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+
+		glm::mat4 transformacion = Projection * View * Model;
+		transformacion = glm::scale(transformacion, glm::vec3(1.0, 1.0, 1.0));
 		programa_shaders.setMat4("transformacion", transformacion);
 		//programa_shaders.setVec3("colors", vec3(red, green + 0.5, blue));
 		programa_shaders.setVec3("colors", vec3(1.0, 0.5, 0.0));
 		glBindVertexArray(id_array_vertices);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_element_buffer);
-		//glDrawArrays(GL_TRIANGLES, 0, 6);   
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_array_vertices);
+		glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(int));   
 		//Dibuja con los elementos  marcados por los indices
-		glDrawElements(GL_TRIANGLES, figura.numTriangles * 3 * sizeof(GLuint), GL_UNSIGNED_INT, 0); //size of indexs
+		//glDrawElements(GL_TRIANGLES, figura.numTriangles * 3 * sizeof(GLuint), GL_UNSIGNED_INT, 0); //size of indexs
 		glfwSwapBuffers(ventana);
 		glfwPollEvents();
 
