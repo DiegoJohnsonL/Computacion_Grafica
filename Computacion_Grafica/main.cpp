@@ -1,5 +1,5 @@
 #include <glad/glad.h>
-#include <glfw3.h>
+#include <GLFW/glfw3.h>
 #include <iostream>;
 #include <fstream>
 #include <sstream>
@@ -21,6 +21,91 @@ void procesarEntrada(GLFWwindow* ventana) {
 
 const unsigned int ANCHO = 800;
 const unsigned int ALTO = 600;
+
+struct Modelo {
+	float* vertices;
+	GLuint* indices;
+	int numVertices;
+	int numTriangles;
+
+};
+
+void readOFF(const char* filename, Modelo* T) {
+
+	ifstream file;
+	string format;
+	int temp;
+	file.open(filename);
+
+	if (file.is_open()) {
+
+		// OFF	
+		file >> format;
+		file >> T->numVertices >> T->numTriangles >> temp;
+
+		string nombre = filename;
+		string strColor = nombre.substr(4, 5);
+
+
+		cout << "Nombre del Archivo: " << filename << endl;
+		cout << "Contiene atributos de Color?: ";
+		if (strColor == "color")
+			cout << "Si" << endl;
+		else
+			cout << "No" << endl;
+
+		if (strColor == "color") {
+
+			float x, y, z, r, g, b;
+
+			T->vertices = new float[T->numVertices * 6];
+			T->indices = new GLuint[T->numTriangles * 3];
+
+			for (int i = 0; i < T->numVertices; i++) {
+				file >> x >> y >> z >> r >> g >> b;
+				T->vertices[3 * i] = x;
+				T->vertices[3 * i + 1] = y;
+				T->vertices[3 * i + 2] = z;
+				T->vertices[3 * i + 3] = r;
+				T->vertices[3 * i + 4] = g;
+				T->vertices[3 * i + 5] = b;
+				cout << " " << x << " " << y << " " << z << " " << r << " " << g << " " << b << endl;
+			}
+			for (int i = 0; i < T->numTriangles; i++) {
+				file >> temp >> x >> y >> z;
+				T->indices[3 * i] = x;
+				T->indices[3 * i + 1] = y;
+				T->indices[3 * i + 2] = z;
+				cout << temp << " " << to_string(x) << " " << to_string(y) << " " << to_string(z) << endl;
+			}
+		}
+
+		if (strColor != "color") {
+
+			float x, y, z;
+
+			T->vertices = new float[T->numVertices * 3];
+			T->indices = new GLuint[T->numTriangles * 3];
+
+			for (int i = 0; i < T->numVertices; i++) {
+				file >> x >> y >> z;
+				T->vertices[3 * i] = x;
+				T->vertices[3 * i + 1] = y;
+				T->vertices[3 * i + 2] = z;
+				cout << " " << x << " " << y << " " << z << endl;
+			}
+			for (int i = 0; i < T->numTriangles; i++) {
+				file >> temp >> x >> y >> z;
+				T->indices[3 * i] = x;
+				T->indices[3 * i + 1] = y;
+				T->indices[3 * i + 2] = z;
+				cout << temp << " " << to_string(x) << " " << to_string(y) << " " << to_string(z) << endl;
+			}
+		}
+	}
+
+	file.close();
+}
 
 class CProgramaShaders {
 	GLuint idPrograma;
@@ -122,7 +207,8 @@ private:
 };
 
 int main() {
-
+	Modelo figura;
+	readOFF("OFF/triangle.off", &figura);
 	//Inicializar glfw
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -151,7 +237,7 @@ int main() {
 
 
 	//Definiendo la geometria de la figura en funciond de vertices 
-	float vertices[] = {
+	/*float vertices[] = {
 		//x----y----z
 		 0.0,  0.0, 0.0,//0
 		-0.25, 0.5, 0.0,//1
@@ -169,7 +255,7 @@ int main() {
 		0, 5, 4,
 		0, 6, 5,
 		0, 1, 6
-	};
+	};*/
 
 	//Enviando la geometria al gpu: Definiendo los buffers (Vertex Array Objects y Vertex Buffer Objets)
 	//VAO  BAO
@@ -184,10 +270,10 @@ int main() {
 
 	//Anexando buffers y cargando los buffer con los datos
 	glBindBuffer(GL_ARRAY_BUFFER, id_array_buffers);	
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); //9vertices*sizeof(float), reservando en memoria de el gpuGL_Dynamic_DRAW , GL_Stream_DRAW 
+	glBufferData(GL_ARRAY_BUFFER, figura.numVertices * 3 * sizeof(float), figura.vertices, GL_STATIC_DRAW); //9vertices*sizeof(float), reservando en memoria de el gpuGL_Dynamic_DRAW , GL_Stream_DRAW 
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_element_buffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, figura.numTriangles * 3 * sizeof(GLuint), figura.indices, GL_STATIC_DRAW);
 
 	//INDICANDO LAS ESPECIFICACIONES DE LOS ATRIBUTOS
 
@@ -197,6 +283,9 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);	
 
+	//color TO-DO
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
 
 	float x = 0.0; float y = 0.0; float dx = 0.003; float dy = 0.003;
 	float red; float green; float blue;
@@ -210,17 +299,14 @@ int main() {
 		programa_shaders.usar();
 		//creando una matriz homografica
 		mat4 transformacion = mat4(1.0);
-
-		transformacion = translate(transformacion, vec3(x, y, 0.0));
-		transformacion = scale(transformacion, vec3(sin((float)glfwGetTime()), sin((float)glfwGetTime()), 1.0));
-		transformacion = rotate(transformacion, (float)glfwGetTime(), vec3(0, 0, 1));
 		programa_shaders.setMat4("transformacion", transformacion);
-		programa_shaders.setVec3("colors", vec3(red, green + 0.5, blue));
+		//programa_shaders.setVec3("colors", vec3(red, green + 0.5, blue));
+		programa_shaders.setVec3("colors", vec3(1.0, 0.5, 0.0));
 		glBindVertexArray(id_array_vertices);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_element_buffer);
 		//glDrawArrays(GL_TRIANGLES, 0, 6);   
 		//Dibuja con los elementos  marcados por los indices
-		glDrawElements(GL_TRIANGLES, sizeof(indices), GL_UNSIGNED_INT, 0); //size of indexs
+		glDrawElements(GL_TRIANGLES, figura.numTriangles * 3 * sizeof(GLuint), GL_UNSIGNED_INT, 0); //size of indexs
 		glfwSwapBuffers(ventana);
 		glfwPollEvents();
 

@@ -16,6 +16,9 @@
     <Filter Include="GLSL">
       <UniqueIdentifier>{1587bad3-c094-4bb1-96ee-95a9d37449bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OFF">
+      <UniqueIdentifier>{5f75551e-2c2d-4089-851c-d8bb0ddc4254}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -34,6 +37,39 @@
     </None>
     <None Include="GLSL\avion.off">
       <Filter>GLSL</Filter>
+    </None>
+    <None Include="OFF\auto.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\avion.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\boxtorus.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\colorTetrahedron.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\cube.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\dragon.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\epcot.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\mushroom.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\teapot.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\tetrahedron.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\triangle.off">
+      <Filter>OFF</Filter>
     </None>
   </ItemGroup>
 </Project>
