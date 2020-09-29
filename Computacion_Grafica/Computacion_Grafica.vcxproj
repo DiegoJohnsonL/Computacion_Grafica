@@ -78,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\UPC\CICLO\Computación Gráfica\Libs_and_Include\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\UPC\CICLO\Computación Gráfica\Libs_and_Include\library;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\franco\Documents\OpenGL Stuff\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\franco\Documents\OpenGL Stuff\Libraries;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
