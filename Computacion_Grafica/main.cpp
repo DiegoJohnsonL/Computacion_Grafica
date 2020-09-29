@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <vector>
+#define STB_IMAGE_IMPLEMENTATION 
 #include "stb_image.h"
 
 using namespace std;
@@ -28,7 +29,6 @@ struct Modelo {
 	GLuint* indices;
 	int numVertices;
 	int numTriangles;
-
 };
 
 void readOFF(const char* filename, Modelo* T) {
@@ -45,22 +45,26 @@ void readOFF(const char* filename, Modelo* T) {
 		file >> T->numVertices >> T->numTriangles >> temp;
 
 		string nombre = filename;
-		string strColor = nombre.substr(4, 5);
+		string strTipo = nombre.substr(4, 5);
 
 
 		cout << "Nombre del Archivo: " << filename << endl;
-		cout << "Contiene atributos de Color?: ";
-		if (strColor == "color")
-			cout << "Si" << endl;
-		else
-			cout << "No" << endl;
+		cout << "Contiene atributos de: ";
+		if (strTipo == "color")
+			cout << "Color" << endl;
 
-		if (strColor == "color") {
+		else if (strTipo == "textu")
+			cout << "textura" << endl;
+
+		else
+			cout << "solo posicion" << endl;
+
+		if (strTipo == "color") {
 
 			float x, y, z, r, g, b;
 
 			T->vertices = new float[T->numVertices * 6];
-			T->indices = new GLuint[T->numTriangles * 3];
+			T->indices = new GLuint[T->numTriangles * 4];
 
 			for (int i = 0; i < T->numVertices; i++) {
 				file >> x >> y >> z >> r >> g >> b;
@@ -81,7 +85,7 @@ void readOFF(const char* filename, Modelo* T) {
 			}
 		}
 
-		if (strColor != "color") {
+		else if (strTipo != "textu" and strTipo != "color") {
 
 			float x, y, z;
 
@@ -102,6 +106,31 @@ void readOFF(const char* filename, Modelo* T) {
 				T->indices[3 * i + 2] = z;
 				cout << temp << " " << to_string(x) << " " << to_string(y) << " " << to_string(z) << endl;
 			}
+		}
+
+		else if (strTipo == "textu") {
+
+			float x, y, z, u, v;
+
+			T->vertices = new float[T->numVertices * 5];
+			T->indices = new GLuint[T->numTriangles * 3];
+
+			for (int i = 0; i < T->numVertices; i++) {
+				file >> x >> y >> z >> u >> v;
+				T->vertices[3 * i] = x;
+				T->vertices[3 * i + 1] = y;
+				T->vertices[3 * i + 2] = z;
+				T->vertices[3 * i + 3] = u;
+				T->vertices[3 * i + 4] = v;
+				cout << " " << x << " " << y << " " << z << " " << u << " " << v << endl;
+			}
+			/*for (int i = 0; i < T->numTriangles; i++) {
+				file >> temp >> x >> y >> z;
+				T->indices[3 * i] = x;
+				T->indices[3 * i + 1] = y;
+				T->indices[3 * i + 2] = z;
+				cout << temp << " " << to_string(x) << " " << to_string(y) << " " << to_string(z) << endl;
+			}*/
 		}
 	}
 
@@ -209,7 +238,7 @@ private:
 
 int main() {
 	Modelo figura;
-	readOFF("OFF/triangle.off", &figura);
+	readOFF("OFF/texturaCuadrado.off", &figura);
 	//Inicializar glfw
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
