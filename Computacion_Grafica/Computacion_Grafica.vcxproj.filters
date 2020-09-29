@@ -29,15 +29,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="GLSL\codigo.fs">
-      <Filter>GLSL</Filter>
-    </None>
-    <None Include="GLSL\codigo.vs">
-      <Filter>GLSL</Filter>
-    </None>
-    <None Include="GLSL\avion.off">
-      <Filter>GLSL</Filter>
-    </None>
     <None Include="OFF\auto.off">
       <Filter>OFF</Filter>
     </None>
@@ -74,9 +65,36 @@
     <None Include="OFF\texturaCuadrado.off">
       <Filter>OFF</Filter>
     </None>
+    <None Include="GLSL\codigo.vs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\codigoC.fs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\codigoC.vs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\codigoT.fs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\codigoT.vs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\codigo.fs">
+      <Filter>GLSL</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stb_image.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="modelo.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pshader.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="transformaciones.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

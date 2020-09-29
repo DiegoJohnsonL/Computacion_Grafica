@@ -78,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\franco\Documents\OpenGL Stuff\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\franco\Documents\OpenGL Stuff\Libraries;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\Projects\C++\OpenGL\includes;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Projects\C++\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -146,9 +146,12 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="GLSL\avion.off" />
     <None Include="GLSL\codigo.fs" />
     <None Include="GLSL\codigo.vs" />
+    <None Include="GLSL\codigoC.fs" />
+    <None Include="GLSL\codigoC.vs" />
+    <None Include="GLSL\codigoT.fs" />
+    <None Include="GLSL\codigoT.vs" />
     <None Include="OFF\auto.off" />
     <None Include="OFF\avion.off" />
     <None Include="OFF\boxtorus.off" />
@@ -163,7 +166,10 @@
     <None Include="OFF\triangle.off" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="modelo.h" />
+    <ClInclude Include="pshader.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="transformaciones.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="wall.jpg" />

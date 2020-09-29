@@ -1,6 +1,6 @@
 #version 330 core
-out vec4 Color;
 in  vec4 color_vertice;
+out vec4 Color;
 void main(){
 	Color = color_vertice;
 }
