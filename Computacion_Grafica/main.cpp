@@ -42,7 +42,7 @@ int main() {
 		return -1;
 	}
 
-	CModel modelo = CModel("OFF/avion.off");
+	CModel modelo = CModel("OFF/texturaCuadrado.off");
 	modelo.setBuffers();
 	string vsFile, fsFile;
 	//Selecionando vector shader y fragment shader a usar

@@ -1,5 +1,5 @@
 #include <glad/glad.h>
-#include <glfw3.h>
+#include <GLFW/glfw3.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -186,12 +186,12 @@ private:
 
 				for (int i = 0; i < this->numVertices; i++) {
 					file >> x >> y >> z >> r >> g >> b;
-					this->vertices[3 * i] = x;
-					this->vertices[3 * i + 1] = y;
-					this->vertices[3 * i + 2] = z;
-					this->vertices[3 * i + 3] = r;
-					this->vertices[3 * i + 4] = g;
-					this->vertices[3 * i + 5] = b;
+					this->vertices[6 * i] = x;
+					this->vertices[6 * i + 1] = y;
+					this->vertices[6 * i + 2] = z;
+					this->vertices[6 * i + 3] = r;
+					this->vertices[6 * i + 4] = g;
+					this->vertices[6 * i + 5] = b;
 					//cout << " " << x << " " << y << " " << z << " " << r << " " << g << " " << b << endl;
 				}
 				for (int i = 0; i < this->numIndices; i++) {
@@ -237,11 +237,11 @@ private:
 
 				for (int i = 0; i < this->numVertices; i++) {
 					file >> x >> y >> z >> u >> v;
-					this->vertices[3 * i] = x;
-					this->vertices[3 * i + 1] = y;
-					this->vertices[3 * i + 2] = z;
-					this->vertices[3 * i + 3] = u;
-					this->vertices[3 * i + 4] = v;
+					this->vertices[5 * i] = x;
+					this->vertices[5 * i + 1] = y;
+					this->vertices[5 * i + 2] = z;
+					this->vertices[5 * i + 3] = u;
+					this->vertices[5 * i + 4] = v;
 					//cout << " " << x << " " << y << " " << z << " " << u << " " << v << endl;
 				}
 			}
