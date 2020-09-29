@@ -15,17 +15,17 @@ using namespace std;
 using namespace glm;
 
 
-enum class TipoArchivo{	Normal, Color, Textura};
+enum class TipoArchivo { Normal, Color, Textura };
 
 class CModel {
-	
+
 public:
 	TipoArchivo tipoArchivo;
 	string name, filePath;
 	GLfloat* vertices;
 	GLuint* indices;
 	vector<Transformacion> transformaciones;
-
+	unsigned int texture[2];
 	GLuint idArrayVertices, idArrayBuffers, idElementBuffer;
 	int numVertices, numIndices, verticesInFila;
 	int vBufferSize, iBufferSize;
@@ -37,9 +37,9 @@ public:
 		//Add conditionals for other files formats
 	}
 	~CModel() {
-		if(this->idArrayVertices != NULL)glDeleteVertexArrays(1, &this->idArrayVertices);
-		if(this->idArrayBuffers  != NULL)glDeleteBuffers(1, &this->idArrayBuffers);
-		if(this->idElementBuffer != NULL)glDeleteBuffers(1, &this->idElementBuffer);
+		if (this->idArrayVertices != NULL)glDeleteVertexArrays(1, &this->idArrayVertices);
+		if (this->idArrayBuffers != NULL)glDeleteBuffers(1, &this->idArrayBuffers);
+		if (this->idElementBuffer != NULL)glDeleteBuffers(1, &this->idElementBuffer);
 	}
 
 	void setBuffers() {
@@ -51,18 +51,15 @@ public:
 	void draw() {
 		glBindVertexArray(this->idArrayVertices);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->idElementBuffer);
-		if (this->tipoArchivo == TipoArchivo::Textura) {
-			glDrawArrays(GL_TRIANGLES, 0, vBufferSize);
-		}
-		else{
-			glDrawElements(GL_TRIANGLES, this->numIndices * 3, GL_UNSIGNED_INT, 0);
-		}
+		glActiveTexture(GL_TEXTURE);
+		glBindTexture(GL_TEXTURE_2D, this->texture[0]);
+		glDrawElements(GL_TRIANGLES, this->numIndices * 3, GL_UNSIGNED_INT, 0);
+
 	}
 
 	void setTextures(const char* path) {
-		unsigned int texture[2];
-		glGenTextures(1, &texture[0]);
-		glBindTexture(GL_TEXTURE_2D, texture[0]);
+		glGenTextures(1, &this->texture[0]);
+		glBindTexture(GL_TEXTURE_2D, this->texture[0]);
 		// set the texture wrapping/filtering options (on the currently bound texture object)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -85,7 +82,7 @@ public:
 	}
 
 
-	
+
 private:
 	//Add funtion to use class "Transformaciones" with a vector of transforations returning a Mat4 to sent in CPrograma.setMat4()
 	mat4 getTransformacion() {
@@ -102,26 +99,22 @@ private:
 		glGenVertexArrays(1, &this->idArrayVertices);
 		glGenBuffers(1, &this->idArrayBuffers);
 		glGenBuffers(1, &this->idElementBuffer);
-	} 
+	}
 	//Anexando los buffers para su ejecucion en la targeta grafica
 	//Anexando buffers y cargando los buffer con los datos	
 	void indexAndLoadBuffers() {
 		glBindVertexArray(this->idArrayVertices);
 		this->vBufferSize = this->numVertices * this->verticesInFila * sizeof(GLfloat);
 		this->iBufferSize = this->numIndices * 3 * sizeof(GLuint);
-		if (tipoArchivo == TipoArchivo::Normal || tipoArchivo == TipoArchivo::Color)
-		{	
-			glBindBuffer(GL_ARRAY_BUFFER, this->idArrayBuffers);
-			glBufferData(GL_ARRAY_BUFFER, vBufferSize, this->vertices, GL_STATIC_DRAW); //vertices*sizeof(float), reservando en memoria de el gpu, || GL_Dynamic_DRAW || GL_Stream_DRAW 
 
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->idElementBuffer);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, iBufferSize, this->indices, GL_STATIC_DRAW);
-		}
-		else {
-			glBindBuffer(GL_ARRAY_BUFFER, this->idArrayBuffers);
-			glBufferData(GL_ARRAY_BUFFER, vBufferSize, this->vertices, GL_STATIC_DRAW);
-		}		
+		glBindBuffer(GL_ARRAY_BUFFER, this->idArrayBuffers);
+		glBufferData(GL_ARRAY_BUFFER, vBufferSize, this->vertices, GL_STATIC_DRAW); //vertices*sizeof(float), reservando en memoria de el gpu, || GL_Dynamic_DRAW || GL_Stream_DRAW 
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->idElementBuffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, iBufferSize, this->indices, GL_STATIC_DRAW);
+
 	}
+
 	void setAttributes() {
 		//(Atributo location = n del vertex shader, cantidad de datos del vec en locations 0, flotantes , false,  moverte n atributos en el arreglo de vertices, empezar en la posicion n despues del puntero)
 		switch (this->tipoArchivo)
@@ -136,13 +129,13 @@ private:
 		case TipoArchivo::Color:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3*sizeof(float)));
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(1);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			glBindVertexArray(0);			
+			glBindVertexArray(0);
 			break;
 
-		case TipoArchivo::Textura:	
+		case TipoArchivo::Textura:
 			// position attribute
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 			glEnableVertexAttribArray(0);
@@ -165,9 +158,8 @@ private:
 			string nombre = this->filePath;
 			string strTipo = nombre.substr(4, 5);
 
-
-			cout << "Nombre del Archivo: " << this->filePath << endl;
-			cout << "Contiene atributos de: ";
+			//cout << "Nombre del Archivo: " << this->filePath << endl;
+			/*cout << "Contiene atributos de: ";
 			if (strTipo == "color")
 				cout << "Color" << endl;
 
@@ -175,13 +167,13 @@ private:
 				cout << "textura" << endl;
 			else
 				cout << "solo posicion" << endl;
-
+				*/
 			if (strTipo == "color") {
 				this->tipoArchivo = TipoArchivo::Color;
 				this->verticesInFila = 6;
 				float x, y, z, r, g, b;
 
-				this->vertices = new float[this->numVertices * 6];
+				this->vertices = new float[this->numVertices * verticesInFila];
 				this->indices = new GLuint[this->numIndices * 3];
 
 				for (int i = 0; i < this->numVertices; i++) {
@@ -208,7 +200,7 @@ private:
 				this->verticesInFila = 3;
 				float x, y, z;
 
-				this->vertices = new float[this->numVertices * 3];
+				this->vertices = new float[this->numVertices * verticesInFila];
 				this->indices = new GLuint[this->numIndices * 3];
 
 				for (int i = 0; i < this->numVertices; i++) {
@@ -233,7 +225,7 @@ private:
 				float x, y, z, u, v;
 
 				this->vertices = new float[this->numVertices * 5];
-				this->indices = NULL;
+				this->indices = new GLuint[this->numIndices * 3];
 
 				for (int i = 0; i < this->numVertices; i++) {
 					file >> x >> y >> z >> u >> v;
@@ -244,14 +236,40 @@ private:
 					this->vertices[5 * i + 4] = v;
 					//cout << " " << x << " " << y << " " << z << " " << u << " " << v << endl;
 				}
+				for (int i = 0; i < this->numIndices; i++) {
+					file >> temp >> x >> y >> z;
+					this->indices[3 * i] = x;
+					this->indices[3 * i + 1] = y;
+					this->indices[3 * i + 2] = z;
+				}
 			}
-		}else {
+
+			/*
+			else if (strTipo == "verte") {
+				// crear TipoArchivo::Vertices
+				this->tipoArchivo = TipoArchivo::Vertices;
+				this->verticesInFila = 3;
+				float x, y, z;
+
+				this->vertices = new float[this->numVertices * 3];
+
+				for (int i = 0; i < this->numVertices; i++) {
+					file >> x >> y >> z;
+					this->vertices[3 * i] = x;
+					this->vertices[3 * i + 1] = y;
+					this->vertices[3 * i + 2] = z;
+					//cout << " " << x << " " << y << " " << z << endl;
+				}
+			}
+			*/
+		}
+		else {
 			cout << "ERROR READING FILE" << endl;
 		}
 
 		file.close();
 	}
-		
+
 
 };
 
