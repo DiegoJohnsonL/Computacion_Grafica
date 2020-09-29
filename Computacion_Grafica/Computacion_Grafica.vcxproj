@@ -155,6 +155,7 @@
     <None Include="OFF\auto.off" />
     <None Include="OFF\avion.off" />
     <None Include="OFF\boxtorus.off" />
+    <None Include="OFF\colorCube.off" />
     <None Include="OFF\colorTetrahedron.off" />
     <None Include="OFF\cross.off" />
     <None Include="OFF\cube.off" />
@@ -164,6 +165,7 @@
     <None Include="OFF\teapot.off" />
     <None Include="OFF\tetrahedron.off" />
     <None Include="OFF\texturaCuadrado.off" />
+    <None Include="OFF\texturaCubo.off" />
     <None Include="OFF\texturaTriangle.off" />
     <None Include="OFF\triangle.off" />
   </ItemGroup>

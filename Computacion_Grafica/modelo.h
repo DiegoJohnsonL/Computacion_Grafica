@@ -51,8 +51,8 @@ public:
 	void draw() {
 		glBindVertexArray(this->idArrayVertices);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->idElementBuffer);
-		glActiveTexture(GL_TEXTURE);
-		glBindTexture(GL_TEXTURE_2D, this->texture[0]);
+		//glActiveTexture(GL_TEXTURE);
+		//glBindTexture(GL_TEXTURE_2D, this->texture[0]);
 		glDrawElements(GL_TRIANGLES, this->numIndices * 3, GL_UNSIGNED_INT, 0);
 
 	}
@@ -142,6 +142,7 @@ private:
 			// texture coord attribute
 			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(1);
+
 			break;
 		}
 	}
@@ -200,7 +201,7 @@ private:
 				this->verticesInFila = 3;
 				float x, y, z;
 
-				this->vertices = new float[this->numVertices * verticesInFila];
+				this->vertices = new float[this->numVertices * 3];
 				this->indices = new GLuint[this->numIndices * 3];
 
 				for (int i = 0; i < this->numVertices; i++) {
