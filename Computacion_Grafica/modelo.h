@@ -1,5 +1,5 @@
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <glfw3.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -173,7 +173,7 @@ private:
 				this->verticesInFila = 6;
 				float x, y, z, r, g, b;
 
-				this->vertices = new float[this->numVertices * verticesInFila];
+				this->vertices = new float[this->numVertices * 6];
 				this->indices = new GLuint[this->numIndices * 3];
 
 				for (int i = 0; i < this->numVertices; i++) {
@@ -200,7 +200,7 @@ private:
 				this->verticesInFila = 3;
 				float x, y, z;
 
-				this->vertices = new float[this->numVertices * verticesInFila];
+				this->vertices = new float[this->numVertices * 3];
 				this->indices = new GLuint[this->numIndices * 3];
 
 				for (int i = 0; i < this->numVertices; i++) {
