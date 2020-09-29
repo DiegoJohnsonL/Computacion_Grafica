@@ -71,6 +71,9 @@
     <None Include="OFF\triangle.off">
       <Filter>OFF</Filter>
     </None>
+    <None Include="OFF\texturaCuadrado.off">
+      <Filter>OFF</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stb_image.h">
