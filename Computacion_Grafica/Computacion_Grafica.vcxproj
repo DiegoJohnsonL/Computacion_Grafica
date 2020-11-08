@@ -168,6 +168,7 @@
     <None Include="OFF\texturaCubo.off" />
     <None Include="OFF\texturaTriangle.off" />
     <None Include="OFF\triangle.off" />
+    <None Include="OFF\verte.off" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="modelo.h" />

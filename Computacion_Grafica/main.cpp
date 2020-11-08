@@ -41,8 +41,8 @@ int main() {
 		cout << "Problemas al cargar GLAD\n";
 		return -1;
 	}
-
-	CModel modelo = CModel("OFF/texturaCubo.off");
+	//glEnable(GL_DEPTH_TEST);
+	CModel modelo = CModel("OFF/verte.off");
 	modelo.setBuffers();
 	string vsFile, fsFile;
 	//Selecionando vector shader y fragment shader a usar
@@ -54,6 +54,10 @@ int main() {
 		vsFile = "GLSL/codigoT.vs";
 		fsFile = "GLSL/codigoT.fs";
 		modelo.setTextures("wall.jpg");
+	}
+	else if (modelo.tipoArchivo == TipoArchivo::Vertices) {
+		vsFile = "GLSL/codigoVer.vs";
+		fsFile = "GLSL/codigoVer.fs";
 	}
 	else {
 		vsFile = "GLSL/codigo.vs";
@@ -90,7 +94,10 @@ int main() {
 			//transformacion = rotate(transformacion, (float)glfwGetTime(), vec3(0, 0, 1));
 			//programa_shaders.setVec3("colors", vec3(1.0, 0.5, 0.0));
 		}
-		
+		if (modelo.tipoArchivo == TipoArchivo::Vertices) {
+			programa_shaders.setVec3("colors", vec3(1.0, 0.5, 0.0));
+
+		}
 		else {
 			//mat4 transformacion = mat4(1.0);
 			mat4 view = Transformacion::getView(1.0f * ANCHO / ALTO, 0.5f, 100.0f);    //Retorna una matriz homografica

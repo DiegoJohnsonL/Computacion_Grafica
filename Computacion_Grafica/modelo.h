@@ -15,7 +15,7 @@ using namespace std;
 using namespace glm;
 
 
-enum class TipoArchivo { Normal, Color, Textura };
+enum class TipoArchivo { Normal, Color, Textura, Vertices };
 
 class CModel {
 
@@ -53,11 +53,18 @@ public:
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->idElementBuffer);
 		//glActiveTexture(GL_TEXTURE);
 		//glBindTexture(GL_TEXTURE_2D, this->texture[0]);
-		glDrawElements(GL_TRIANGLES, this->numIndices * 3, GL_UNSIGNED_INT, 0);
+		if (this->numIndices > 0) {
+			glDrawElements(GL_TRIANGLES, this->numIndices * 3, GL_UNSIGNED_INT, 0);
+		}
+		else {
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+		}
+
 
 	}
 
 	void setTextures(const char* path) {
+
 		glGenTextures(1, &this->texture[0]);
 		glBindTexture(GL_TEXTURE_2D, this->texture[0]);
 		// set the texture wrapping/filtering options (on the currently bound texture object)
@@ -144,6 +151,13 @@ private:
 			glEnableVertexAttribArray(1);
 
 			break;
+		case TipoArchivo::Vertices:
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+			glEnableVertexAttribArray(0);
+			// texture coord attribute
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(3 * sizeof(float)));
+			glEnableVertexAttribArray(1);
+
 		}
 	}
 	void readFile() {
@@ -245,7 +259,7 @@ private:
 				}
 			}
 
-			/*
+
 			else if (strTipo == "verte") {
 				// crear TipoArchivo::Vertices
 				this->tipoArchivo = TipoArchivo::Vertices;
@@ -262,7 +276,7 @@ private:
 					//cout << " " << x << " " << y << " " << z << endl;
 				}
 			}
-			*/
+
 		}
 		else {
 			cout << "ERROR READING FILE" << endl;

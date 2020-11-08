@@ -95,6 +95,9 @@
     <None Include="OFF\colorCube.off">
       <Filter>OFF</Filter>
     </None>
+    <None Include="OFF\verte.off">
+      <Filter>OFF</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stb_image.h">
