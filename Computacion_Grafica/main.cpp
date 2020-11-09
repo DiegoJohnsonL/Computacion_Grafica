@@ -1,6 +1,6 @@
 #include "modelo.h"
 #include "pshader.h"
-
+#include "Camera.h" 
 using namespace std;
 using namespace glm;
 

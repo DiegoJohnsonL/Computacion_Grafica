@@ -27,6 +27,9 @@
     <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="main2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="OFF\auto.off">
@@ -98,6 +101,18 @@
     <None Include="OFF\verte.off">
       <Filter>OFF</Filter>
     </None>
+    <None Include="GLSL\codigoilum.fs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\codigoilum.vs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\codigoLight.fs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\codigoLight.vs">
+      <Filter>GLSL</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stb_image.h">
@@ -112,9 +127,18 @@
     <ClInclude Include="transformaciones.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="wall.jpg">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="container2.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="container2_specular.png">
       <Filter>Source Files</Filter>
     </Image>
   </ItemGroup>
