@@ -1,5 +1,4 @@
 #include "modelo.h"
-#include "pshader.h"
 #include "Camera.h" 
 using namespace std;
 using namespace glm;
@@ -7,17 +6,73 @@ using namespace glm;
 const unsigned int ANCHO = 800;
 const unsigned int ALTO = 600;
 
+// camera
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+float lastX = ANCHO / 2.0f;
+float lastY = ALTO / 2.0f;
+bool firstMouse = true;
+
+float deltaTime = 0.0f;	// Time between current frame and last frame
+float lastFrame = 0.0f;
+
 
 void framebuffer_size_callback(GLFWwindow* ventana, int alto, int ancho) {
 	glViewport(0, 0, ancho, alto); //actualiza el view port dependiendo de la ventana
 }
+
+void framebuffer_tamanho_callback(GLFWwindow* ventana, int ancho, int alto) {
+	glViewport(0, 0, ancho, alto);
+}
+
 void procesarEntrada(GLFWwindow* ventana) {
 	if (glfwGetKey(ventana, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(ventana, true);
+	if (glfwGetKey(ventana, GLFW_KEY_W) == GLFW_PRESS)
+		camera.ProcessKeyboard(FORWARD, deltaTime);
+	if (glfwGetKey(ventana, GLFW_KEY_S) == GLFW_PRESS)
+		camera.ProcessKeyboard(BACKWARD, deltaTime);
+	if (glfwGetKey(ventana, GLFW_KEY_A) == GLFW_PRESS)
+		camera.ProcessKeyboard(LEFT, deltaTime);
+	if (glfwGetKey(ventana, GLFW_KEY_D) == GLFW_PRESS)
+		camera.ProcessKeyboard(RIGHT, deltaTime);
+
+}
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+	lastX = xpos;
+	lastY = ypos;
+
+	camera.ProcessMouseMovement(xoffset, yoffset);
+}
+
+// glfw: whenever the mouse scroll wheel scrolls, this callback is called
+// ----------------------------------------------------------------------
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	camera.ProcessMouseScroll(yoffset);
 }
 
 
 int main() {
+	// camera
+	Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+	float lastX = ANCHO / 2.0f;
+	float lastY = ALTO / 2.0f;
+	bool firstMouse = true;
+
+	float deltaTime = 0.0f;	// Time between current frame and last frame
+	float lastFrame = 0.0f;
 
 	//Inicializar glfw
 	glfwInit();
@@ -35,93 +90,51 @@ int main() {
 	glfwMakeContextCurrent(ventana);
 	//actualizacion del view port
 	glfwSetFramebufferSizeCallback(ventana, framebuffer_size_callback);
+	glfwSetCursorPosCallback(ventana, mouse_callback);
+	glfwSetScrollCallback(ventana, scroll_callback);
+
+	glfwSetInputMode(ventana, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	//Cargar Glad
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		cout << "Problemas al cargar GLAD\n";
 		return -1;
 	}
-	//glEnable(GL_DEPTH_TEST);
-	CModel modelo = CModel("OFF/verte.off");
-	modelo.setBuffers();
-	string vsFile, fsFile;
-	//Selecionando vector shader y fragment shader a usar
-	if (modelo.tipoArchivo == TipoArchivo::Color) {
-		vsFile = "GLSL/codigoC.vs";
-		fsFile = "GLSL/codigoC.fs";
-	}
-	else if (modelo.tipoArchivo == TipoArchivo::Textura) {
-		vsFile = "GLSL/codigoT.vs";
-		fsFile = "GLSL/codigoT.fs";
-		modelo.setTextures("wall.jpg");
-	}
-	else if (modelo.tipoArchivo == TipoArchivo::Vertices) {
-		vsFile = "GLSL/codigoVer.vs";
-		fsFile = "GLSL/codigoVer.fs";
-	}
-	else {
-		vsFile = "GLSL/codigo.vs";
-		fsFile = "GLSL/codigo.fs";
-	}
 
-	CProgramaShaders programa_shaders = CProgramaShaders(vsFile, fsFile);
+	// Arreglo de posiciones de los cubos
+	glm::vec3 posiciones[] = {
+		glm::vec3(0.0,  0.0,  0.0),
+		glm::vec3(2.0,  5.0, -15.0),
+		glm::vec3(-1.5, -2.2, -2.5),
+		glm::vec3(-3.8, -2.0, -12.3),
+		glm::vec3(2.4, -0.4, -3.5),
+		glm::vec3(-1.7,  3.0, -7.5),
+		glm::vec3(1.3, -2.0, -2.5),
+		glm::vec3(1.5,  2.0, -2.5),
+		glm::vec3(1.5,  0.2, -1.5),
+		glm::vec3(-1.3,  1.0, -1.5)
+	};
+
+	// Figura 1
+	CModel modelo("OFF/cuboNT.off"); // iniciando y cargando el off
+	modelo.setArrayName("posiciones", posiciones); // cargar posiciones
+	modelo.setBuffers(); // definiendo los atributos de la figura
+	modelo.loadTextures("container2.png", "container2_specular.png"); // Cargar Texturas
+
+	// Iniciando programa Shader con el vs y fs de la figura
+	CProgramaShaders programa(modelo.vertexShader(), modelo.fragmentShader());
+
+	// Configuracion del Shader para las texturas de la figura
+	modelo.shaderConfiguration(programa);
+
 	while (!glfwWindowShouldClose(ventana)) {
 
-		procesarEntrada(ventana);
-		glClearColor(0, 0, 0, 1);
-		glClear(GL_COLOR_BUFFER_BIT);
-		programa_shaders.usar();
-
-		if (modelo.tipoArchivo == TipoArchivo::Textura) {
-
-			glm::mat4 Model = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-			glm::mat4 Projection = glm::perspective(45.0f, 1.0f * ANCHO / ALTO, 0.1f, 100.0f);
-			glm::mat4 View = glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-
-			glm::mat4 transformacion = Projection * View * Model;
-			transformacion = glm::scale(transformacion, glm::vec3(1.0, 1.0, 1.0));
-			programa_shaders.setMat4("transformacion", transformacion);
-		}
-
-		if (modelo.tipoArchivo == TipoArchivo::Color) {
-
-			//mat4 transformacion = mat4(1.0);			
-			mat4 view = Transformacion::getView(1.0f * ANCHO / ALTO, 0.5f, 100.0f);	//Retorna una matriz homografica	 
-			programa_shaders.setMat4("view", view);
-			mat4 rotacion = rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-			programa_shaders.setMat4("transformacion", rotacion);
-			//transformacion = translate(transformacion, vec3(x, y, 0.0));		
-			//transformacion = rotate(transformacion, (float)glfwGetTime(), vec3(0, 0, 1));
-			//programa_shaders.setVec3("colors", vec3(1.0, 0.5, 0.0));
-		}
-		if (modelo.tipoArchivo == TipoArchivo::Vertices) {
-			programa_shaders.setVec3("colors", vec3(1.0, 0.5, 0.0));
-
-		}
-		else {
-			//mat4 transformacion = mat4(1.0);
-			mat4 view = Transformacion::getView(1.0f * ANCHO / ALTO, 0.5f, 100.0f);    //Retorna una matriz homografica
-			programa_shaders.setMat4("view", view);
-			mat4 rotacion = rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-			programa_shaders.setMat4("transformacion", rotacion);
-			//transformacion = translate(transformacion, vec3(x, y, 0.0));
-			//transformacion = rotate(transformacion, (float)glfwGetTime(), vec3(0, 0, 1));
-			programa_shaders.setVec3("colors", vec3(1.0, 0.5, 0.0));
-		}
-
-
-
-		//glDrawArrays(GL_TRIANGLES, 0, 6); 
-		//Dibuja con los elementos  marcados por los indices
-		modelo.draw();
-		glfwSwapBuffers(ventana);
-		glfwPollEvents();
 
 	}
 
 	//librerando memoria
 	modelo.~CModel();
-	programa_shaders.~CProgramaShaders();
+	programa.~CProgramaShaders();
 	glfwTerminate();
 	return 0;
 

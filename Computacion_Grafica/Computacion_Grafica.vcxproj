@@ -78,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\UPC\CICLO\Computación Gráfica\Libs_and_Include\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\UPC\CICLO\Computación Gráfica\Libs_and_Include\library;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\Projects\C++\OpenGL\includes;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Projects\C++\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -144,19 +144,14 @@
   <ItemGroup>
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="main2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="GLSL\codigo.fs" />
-    <None Include="GLSL\codigo.vs" />
-    <None Include="GLSL\codigoC.fs" />
-    <None Include="GLSL\codigoC.vs" />
-    <None Include="GLSL\codigoilum.fs" />
-    <None Include="GLSL\codigoilum.vs" />
-    <None Include="GLSL\codigoLight.fs" />
-    <None Include="GLSL\codigoLight.vs" />
-    <None Include="GLSL\codigoT.fs" />
-    <None Include="GLSL\codigoT.vs" />
+    <None Include="GLSL\colorTextura.fs" />
+    <None Include="GLSL\colorTextura.vs" />
+    <None Include="GLSL\normalesTextura.fs" />
+    <None Include="GLSL\normalesTextura.vs" />
+    <None Include="GLSL\textura.fs" />
+    <None Include="GLSL\textura.vs" />
     <None Include="OFF\auto.off" />
     <None Include="OFF\avion.off" />
     <None Include="OFF\boxtorus.off" />
@@ -180,7 +175,6 @@
     <ClInclude Include="modelo.h" />
     <ClInclude Include="pshader.h" />
     <ClInclude Include="stb_image.h" />
-    <ClInclude Include="transformaciones.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="container2.png" />

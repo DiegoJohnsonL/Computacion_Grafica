@@ -27,9 +27,6 @@
     <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="OFF\auto.off">
@@ -68,24 +65,6 @@
     <None Include="OFF\texturaCuadrado.off">
       <Filter>OFF</Filter>
     </None>
-    <None Include="GLSL\codigo.vs">
-      <Filter>GLSL</Filter>
-    </None>
-    <None Include="GLSL\codigoC.fs">
-      <Filter>GLSL</Filter>
-    </None>
-    <None Include="GLSL\codigoC.vs">
-      <Filter>GLSL</Filter>
-    </None>
-    <None Include="GLSL\codigoT.fs">
-      <Filter>GLSL</Filter>
-    </None>
-    <None Include="GLSL\codigoT.vs">
-      <Filter>GLSL</Filter>
-    </None>
-    <None Include="GLSL\codigo.fs">
-      <Filter>GLSL</Filter>
-    </None>
     <None Include="OFF\cross.off">
       <Filter>OFF</Filter>
     </None>
@@ -101,16 +80,22 @@
     <None Include="OFF\verte.off">
       <Filter>OFF</Filter>
     </None>
-    <None Include="GLSL\codigoilum.fs">
+    <None Include="GLSL\colorTextura.fs">
       <Filter>GLSL</Filter>
     </None>
-    <None Include="GLSL\codigoilum.vs">
+    <None Include="GLSL\colorTextura.vs">
       <Filter>GLSL</Filter>
     </None>
-    <None Include="GLSL\codigoLight.fs">
+    <None Include="GLSL\normalesTextura.fs">
       <Filter>GLSL</Filter>
     </None>
-    <None Include="GLSL\codigoLight.vs">
+    <None Include="GLSL\normalesTextura.vs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\textura.fs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\textura.vs">
       <Filter>GLSL</Filter>
     </None>
   </ItemGroup>
@@ -122,9 +107,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="pshader.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="transformaciones.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
