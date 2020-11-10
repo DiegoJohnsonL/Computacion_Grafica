@@ -126,8 +126,6 @@ int main() {
 	// Figura 2 - Lampara
 	CModel light("OFF/esfera.off");
 	light.setBuffers();
-	light.loadArray("posiciones", pointLightPositions);
-	light.loadArray("colores", pointLightColors);
 
 	// Armando Shaders
 	CProgramaShaders shader("GLSL/sombra.vs", "GLSL/sombra.fs");
