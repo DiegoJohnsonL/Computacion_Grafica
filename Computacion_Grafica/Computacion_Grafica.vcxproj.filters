@@ -19,6 +19,9 @@
     <Filter Include="OFF">
       <UniqueIdentifier>{5f75551e-2c2d-4089-851c-d8bb0ddc4254}</UniqueIdentifier>
     </Filter>
+    <Filter Include="textures">
+      <UniqueIdentifier>{a9a40b44-e704-427e-b71b-b1587ec5a0cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -83,6 +86,18 @@
     <None Include="OFF\cuadradoNT.off">
       <Filter>OFF</Filter>
     </None>
+    <None Include="GLSL\profundidad.fs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\profundidad.vs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\sombra.fs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\sombra.vs">
+      <Filter>GLSL</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stb_image.h">
@@ -113,6 +128,12 @@
     </Image>
     <Image Include="wood.png">
       <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="textures\grass.png">
+      <Filter>textures</Filter>
+    </Image>
+    <Image Include="textures\ilusion.jpg">
+      <Filter>textures</Filter>
     </Image>
   </ItemGroup>
 </Project>

@@ -150,6 +150,10 @@
     <None Include="GLSL\colorTextura.vs" />
     <None Include="GLSL\normalesTextura.fs" />
     <None Include="GLSL\normalesTextura.vs" />
+    <None Include="GLSL\profundidad.fs" />
+    <None Include="GLSL\profundidad.vs" />
+    <None Include="GLSL\sombra.fs" />
+    <None Include="GLSL\sombra.vs" />
     <None Include="GLSL\textura.fs" />
     <None Include="GLSL\textura.vs" />
     <None Include="OFF\cuadradoNT.off" />
@@ -175,6 +179,8 @@
     <Image Include="awesomeface.png" />
     <Image Include="container2.png" />
     <Image Include="container2_specular.png" />
+    <Image Include="textures\grass.png" />
+    <Image Include="textures\ilusion.jpg" />
     <Image Include="wall.jpg" />
     <Image Include="wood.png" />
   </ItemGroup>

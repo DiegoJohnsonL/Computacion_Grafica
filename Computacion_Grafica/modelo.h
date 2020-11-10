@@ -46,8 +46,22 @@ public:
 	int linVertices, linIndices, linAristas;
 	int verticesTotal, indicesTotal, flotantesTotal;
 
+	// Vector de posiciones
+	int posicionesTotal;
+	glm::vec3* posiciones = nullptr;
+
+	// Vector de colores de luz
+	int vectorColoresTotal;
+	glm::vec3* vectorColores = nullptr;
+
 	Tipo tipo;
 	string name, filePath;
+
+	// Matrices de transformacion
+	glm::mat4 vista = glm::mat4(1.0);
+	glm::mat4 proyeccion = glm::mat4(1.0);
+	glm::vec3 colores = glm::vec3(1.0);
+	glm::mat4 modelo = glm::mat4(1.0);
 
 	CModel(string filePath) {
 		//Reads file
@@ -85,7 +99,30 @@ public:
 		this->setAttributes();
 	}
 
-	void draw() {
+	void draw(CProgramaShaders& shader) {
+		//* Enlazar texturas segun cuantas hayan sido cargadas
+		if (numTexturas > 0) {
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, texture1);
+		}
+
+		if (numTexturas > 1) {
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, texture2);
+		} //*/
+
+		// Establecer valores condicionales de los Shaders
+		shader.setFloat("mixValue", mixValue); // Valor de mezcla de ambas texturas
+		shader.setBool("colorInterno", colorInterno); // Si el modelo tiene color en sus vertices
+		shader.setBool("texturaInterna", texturaInterna); // Si el modelo tiene textura en sus vertices
+
+		// Aplicar matrices al shader
+		shader.setMat4("vista", vista);
+		shader.setMat4("proyeccion", proyeccion);
+		shader.setVec3("colores", colores);
+		shader.setMat4("modelo", modelo); //*/
+
+		// Dibujar la superficie segun los vertices o indices
 		glBindVertexArray(VAO);
 		if (indicesTotal > 0) {
 			// Dibujar utilizando el arreglo de indices
@@ -95,6 +132,7 @@ public:
 			// Dibujar utilizando solo el arreglo de vertices
 			glDrawArrays(GL_TRIANGLES, 0, linVertices);
 		}
+		glBindVertexArray(0);
 	}
 
 	// Enlazar texturas segun cuantas hayan sido cargadas
@@ -129,8 +167,8 @@ public:
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-			//glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+			//glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 			glGenerateMipmap(GL_TEXTURE_2D);	
 
 			stbi_image_free(data);
@@ -186,6 +224,26 @@ public:
 		if (xPos > (limit - sizeObject) + abs(sizeObject * multiplier) || xPos < (sizeObject - limit) - abs(sizeObject * multiplier)) xVel *= -1;
 		if (yPos > (limit - sizeObject) + abs(sizeObject * multiplier) || yPos < (sizeObject - limit) - abs(sizeObject * multiplier)) yVel *= -1;
 		if (zPos > (limit - sizeObject) + abs(sizeObject * multiplier) || zPos < (sizeObject - limit) - abs(sizeObject * multiplier)) zVel *= -1;
+	}
+	template <typename T, typename T2, size_t n>
+	void setArray(T(&theArray)[n], T2*& pointerArray, int& size) {
+		// Eliminar el arreglo de punteros por si ya existe
+		delete[] pointerArray;
+		// Guardar el valor del tamaño del arreglo
+		size = sizeof(theArray) / sizeof(T);
+		// Formatear el arreglo de punteros con el tamaño del arreglo
+		pointerArray = new T2[size];
+		// Copiar todos los elementos del arreglo al arreglo de punteros
+		for (int i = 0; i < size; i++) pointerArray[i] = (T2)theArray[i];
+	}
+
+	// Copiar arreglo exterior al arreglo de punteros interior segun el nombre del arreglo
+	template <typename T, size_t n>
+	void loadArray(string name, T(&theArray)[n]) {
+		//if (name == "vertices") setArray(theArray, vertices, verticesTotal);
+		//if (name == "indices") setArray(theArray, indices, indicesTotal);
+		if (name == "posiciones") setArray(theArray, posiciones, posicionesTotal);
+		if (name == "colores") setArray(theArray, vectorColores, vectorColoresTotal);
 	}
 
 private:	
@@ -301,15 +359,6 @@ private:
 	void getMaxMin() {
 		for (int i = 0; i < verticesTotal; i++) checkMaxMin(i);
 	}
-
-	// Copiar arreglo a un arreglo de punteros
-	template <typename T, typename T2, size_t n>
-	void setArray(T(&theArray)[n], T2*& pointerArray, int& size) {
-		size = sizeof(theArray) / sizeof(T);
-		pointerArray = new T2[size];
-		for (int i = 0; i < size; i++) pointerArray[i] = (T2)theArray[i];
-	}
-
 	
 	// Arreglar para vertices e indices, funciona sin problemas para las posiciones
 	// En caso de no tener un archivo OFF, cargar los arreglos manualmente
