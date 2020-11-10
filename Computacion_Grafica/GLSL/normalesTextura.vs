@@ -22,6 +22,5 @@ void main()
     TexCoords = aTexCoords;
     
     gl_Position = proyeccion * vista * vec4(FragPos, 1.0);
-
     colorVertice = vec4(vec3(1.0,1.0,1.0)*colorInterno + colores*(1-colorInterno), 1.0);
 }
