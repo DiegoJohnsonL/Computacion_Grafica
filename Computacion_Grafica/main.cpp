@@ -112,11 +112,18 @@ int main() {
 	};
 
 	// Arreglo de posiciones de las lamparas
-	glm::vec3 posiciones2[] = {
+	glm::vec3 pointLightPositions[] = {
 	  glm::vec3(0.7f,  0.2f,  2.0f),
-	  glm::vec3(2.3f, -3.3f, -4.0f),
-	  glm::vec3(-4.0f,  2.0f, -12.0f),
-	  glm::vec3(0.0f,  0.0f, -3.0f)
+		glm::vec3(2.3f, -3.3f, -4.0f),
+		glm::vec3(-4.0f,  2.0f, -12.0f),
+		glm::vec3(0.0f,  0.0f, -3.0f)
+	};
+
+	glm::vec3 pointLightColors[] = {
+	glm::vec3(0.1f, 0.1f, 0.1f),
+	glm::vec3(0.1f, 0.1f, 0.1f),
+	glm::vec3(0.1f, 0.1f, 0.1f),
+	glm::vec3(0.3f, 0.1f, 0.1f)
 	};
 
 	//Cubo
@@ -127,7 +134,7 @@ int main() {
 
 	// Figura 2 - Lampara
 	CModel light("OFF/cubo2.off");
-	light.setArrayName("posiciones", posiciones2);
+	light.setArrayName("posiciones", pointLightPositions);
 	light.setBuffers();
 
 	// Iniciando programa Shader con el vs y fs de la figura
@@ -148,7 +155,7 @@ int main() {
 		//---------------------
 
 		procesarEntrada(ventana);
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		cubo.bindTexture();
 
@@ -166,51 +173,51 @@ int main() {
 		*/
 		// directional light
 		cuboShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-		cuboShader.setVec3("dirLight.ambient", 0.05f, 0.05f, 0.05f);
-		cuboShader.setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
-		cuboShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+		cuboShader.setVec3("dirLight.ambient", 0.0f, 0.0f, 0.0f);
+		cuboShader.setVec3("dirLight.diffuse", 0.05f, 0.05f, 0.05);
+		cuboShader.setVec3("dirLight.specular", 0.2f, 0.2f, 0.2f);
 		// point light 1
-		cuboShader.setVec3("pointLights[0].position", posiciones2[0]);
-		cuboShader.setVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
-		cuboShader.setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
-		cuboShader.setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
+		cuboShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
+		cuboShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
+		cuboShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
+		cuboShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
 		cuboShader.setFloat("pointLights[0].constant", 1.0f);
-		cuboShader.setFloat("pointLights[0].linear", 0.09);
-		cuboShader.setFloat("pointLights[0].quadratic", 0.032);
+		cuboShader.setFloat("pointLights[0].linear", 0.14);
+		cuboShader.setFloat("pointLights[0].quadratic", 0.07);
 		// point light 2
-		cuboShader.setVec3("pointLights[1].position", posiciones2[1]);
-		cuboShader.setVec3("pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
-		cuboShader.setVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
-		cuboShader.setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
+		cuboShader.setVec3( "pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
+		cuboShader.setVec3( "pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
+		cuboShader.setVec3( "pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
+		cuboShader.setVec3( "pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
 		cuboShader.setFloat("pointLights[1].constant", 1.0f);
-		cuboShader.setFloat("pointLights[1].linear", 0.09);
-		cuboShader.setFloat("pointLights[1].quadratic", 0.032);
+		cuboShader.setFloat("pointLights[1].linear", 0.14);
+		cuboShader.setFloat("pointLights[1].quadratic", 0.07);
 		// point light 3
-		cuboShader.setVec3("pointLights[2].position", posiciones2[2]);
-		cuboShader.setVec3("pointLights[2].ambient", 0.05f, 0.05f, 0.05f);
-		cuboShader.setVec3("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
-		cuboShader.setVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
+		cuboShader.setVec3( "pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
+		cuboShader.setVec3( "pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
+		cuboShader.setVec3( "pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
+		cuboShader.setVec3( "pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
 		cuboShader.setFloat("pointLights[2].constant", 1.0f);
-		cuboShader.setFloat("pointLights[2].linear", 0.09);
-		cuboShader.setFloat("pointLights[2].quadratic", 0.032);
+		cuboShader.setFloat("pointLights[2].linear", 0.22);
+		cuboShader.setFloat("pointLights[2].quadratic", 0.20);
 		// point light 4
-		cuboShader.setVec3("pointLights[3].position", posiciones2[3]);
-		cuboShader.setVec3("pointLights[3].ambient", 0.05f, 0.05f, 0.05f);
-		cuboShader.setVec3("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
-		cuboShader.setVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
+		cuboShader.setVec3( "pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
+		cuboShader.setVec3( "pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
+		cuboShader.setVec3( "pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
+		cuboShader.setVec3( "pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
 		cuboShader.setFloat("pointLights[3].constant", 1.0f);
-		cuboShader.setFloat("pointLights[3].linear", 0.09);
-		cuboShader.setFloat("pointLights[3].quadratic", 0.032);
+		cuboShader.setFloat("pointLights[3].linear", 0.14);
+		cuboShader.setFloat("pointLights[3].quadratic", 0.07);
 		// spotLight
-		cuboShader.setVec3("spotLight.position", camera.Position);
-		cuboShader.setVec3("spotLight.direction", camera.Front);
+		cuboShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
+		cuboShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
 		cuboShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
 		cuboShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
 		cuboShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
 		cuboShader.setFloat("spotLight.constant", 1.0f);
 		cuboShader.setFloat("spotLight.linear", 0.09);
 		cuboShader.setFloat("spotLight.quadratic", 0.032);
-		cuboShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+		cuboShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(10.0f)));
 		cuboShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
 
 		// view/projection transformations
@@ -237,7 +244,7 @@ int main() {
 		for (unsigned int i = 0; i < 4; i++)
 		{
 			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, posiciones2[i]);
+			model = glm::translate(model, pointLightPositions[i]);
 			model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
 			lightShader.setMat4("modelo", model);
 			light.draw();
