@@ -152,23 +152,18 @@
     <None Include="GLSL\normalesTextura.vs" />
     <None Include="GLSL\textura.fs" />
     <None Include="GLSL\textura.vs" />
-    <None Include="OFF\auto.off" />
-    <None Include="OFF\avion.off" />
-    <None Include="OFF\boxtorus.off" />
-    <None Include="OFF\colorCube.off" />
-    <None Include="OFF\colorTetrahedron.off" />
-    <None Include="OFF\cross.off" />
-    <None Include="OFF\cube.off" />
-    <None Include="OFF\dragon.off" />
-    <None Include="OFF\epcot.off" />
-    <None Include="OFF\mushroom.off" />
-    <None Include="OFF\teapot.off" />
-    <None Include="OFF\tetrahedron.off" />
-    <None Include="OFF\texturaCuadrado.off" />
-    <None Include="OFF\texturaCubo.off" />
-    <None Include="OFF\texturaTriangle.off" />
-    <None Include="OFF\triangle.off" />
-    <None Include="OFF\verte.off" />
+    <None Include="OFF\cuadrado.off" />
+    <None Include="OFF\cuadrado2.off" />
+    <None Include="OFF\cuadradoCT.off" />
+    <None Include="OFF\cubo.off" />
+    <None Include="OFF\cubo2.off" />
+    <None Include="OFF\cuboN.off" />
+    <None Include="OFF\cuboNT.off" />
+    <None Include="OFF\cuboT.off" />
+    <None Include="OFF\esfera.off" />
+    <None Include="OFF\examenp.off" />
+    <None Include="OFF\helice.off" />
+    <None Include="OFF\triangulo.off" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />

@@ -29,57 +29,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="OFF\auto.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\avion.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\boxtorus.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\colorTetrahedron.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\cube.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\dragon.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\epcot.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\mushroom.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\teapot.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\tetrahedron.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\triangle.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\texturaCuadrado.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\cross.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\texturaTriangle.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\texturaCubo.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\colorCube.off">
-      <Filter>OFF</Filter>
-    </None>
-    <None Include="OFF\verte.off">
-      <Filter>OFF</Filter>
-    </None>
     <None Include="GLSL\colorTextura.fs">
       <Filter>GLSL</Filter>
     </None>
@@ -97,6 +46,42 @@
     </None>
     <None Include="GLSL\textura.vs">
       <Filter>GLSL</Filter>
+    </None>
+    <None Include="OFF\cuadrado.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\cuadrado2.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\cuadradoCT.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\cubo.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\cubo2.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\cuboN.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\cuboNT.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\cuboT.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\esfera.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\examenp.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\helice.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="OFF\triangulo.off">
+      <Filter>OFF</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

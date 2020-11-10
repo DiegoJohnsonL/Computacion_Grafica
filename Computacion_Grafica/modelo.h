@@ -20,7 +20,6 @@ enum class Tipo { basico, textura, color, colorTextura, normales, normalesTextur
 class CModel {
 
 public:
-
 	GLfloat* vertices;
 	GLuint* indices;
 	float xmin = 1e09, xmax = -1e09, ymin = 1e09, ymax = -1e09, zmin = 1e09, zmax = -1e09;
@@ -71,12 +70,13 @@ public:
 		this->readFile();
 		//Add conditionals for other files formats
 	}
-	~CModel() {
+	~CModel() {	}
+	void freeMemory() {
 		delete[] vertices;
 		delete[] indices;
-		if (this->VAO != NULL) glDeleteVertexArrays(1, &this->VAO);
-		if (this->VBO != NULL) glDeleteBuffers(1, &this->VBO);
-		if (this->EBO != NULL) glDeleteBuffers(1, &this->EBO);
+		glDeleteVertexArrays(1, &VAO);
+		glDeleteBuffers(1, &VBO);
+		glDeleteBuffers(1, &EBO);
 	}
 
 	// Configurar vertex y fragment shaders adecuados segun el archivo OFF
@@ -93,7 +93,6 @@ public:
 		if (tipo == Tipo::normalesTextura) FS = "GLSL/normalesTextura.fs";
 		return FS;
 	}
-
 
 	void setBuffers() {
 		this->defBuffers();
@@ -126,27 +125,27 @@ public:
 		}
 	}
 
-
 	// Cargar textura de ruta a ID de textura
 	void loadTexture(string path, unsigned int& textureID) {
-		glGenTextures(1, &textureID);
 
+		glGenTextures(1, &textureID);
 		int width, height, nrComponents;
 		unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
 		if (data) {
+
 			GLenum format;
 			if (nrComponents == 1) format = GL_RED;
 			else if (nrComponents == 3) format = GL_RGB;
 			else if (nrComponents == 4) format = GL_RGBA;
 
 			glBindTexture(GL_TEXTURE_2D, textureID);
-			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-			glGenerateMipmap(GL_TEXTURE_2D);
-
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+			glGenerateMipmap(GL_TEXTURE_2D);	
 
 			stbi_image_free(data);
 		}
@@ -199,19 +198,15 @@ public:
 	// Configurar el shader con las texturas cargadas
 	void shaderConfiguration(CProgramaShaders& shader) {
 		shader.usar();
-
 		if (normales) {
 			shader.setInt("material.diffuse", 0);
 			shader.setInt("material.specular", 1);
 			return;
 		}
-
 		shader.setInt("texture1", 0);
 		shader.setInt("texture2", 1);
 	}
 
-	//------------------------------------------------------------------------
-	// Movimientos
 
 	// Movimiento del objeto
 	void movement() {
@@ -360,12 +355,10 @@ private:
 
 	
 	// Arreglar para vertices e indices, funciona sin problemas para las posiciones
-
 	// En caso de no tener un archivo OFF, cargar los arreglos manualmente
 	// figura.setArrayName("vertices", vertices);
 	// figura.setArrayName("indices", indices);
 	// figura.getMaxMin() // Para obtener los maximos y minimos
-
 	//------------------------------------------------------------------------
 
 	void readFile() {

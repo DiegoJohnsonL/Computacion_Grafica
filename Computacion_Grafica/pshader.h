@@ -76,7 +76,6 @@ public:
 			glCompileShader(idShaderGeometria);
 			verificarErrores(idShaderGeometria, "Geometria");
 		}
-
 		//Programa de shaders -- Enlazando vertex y frame shaders
 		idPrograma = glCreateProgram();
 		glAttachShader(idPrograma, idShaderVertice);
@@ -156,5 +155,4 @@ private:
 			}
 		}
 	}
-
 };
