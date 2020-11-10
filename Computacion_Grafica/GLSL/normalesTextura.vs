@@ -6,7 +6,6 @@ layout (location = 2) in vec2 aTexCoords;
 out vec3 FragPos;
 out vec3 Normal;
 out vec2 TexCoords;
-out vec4 colorVertice;
 
 uniform vec3 colores;
 uniform mat4 modelo;
@@ -22,5 +21,4 @@ void main()
     TexCoords = aTexCoords;
     
     gl_Position = proyeccion * vista * vec4(FragPos, 1.0);
-    colorVertice = vec4(vec3(1.0,1.0,1.0)*colorInterno + colores*(1-colorInterno), 1.0);
 }

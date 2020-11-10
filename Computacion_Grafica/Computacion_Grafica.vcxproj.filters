@@ -47,9 +47,6 @@
     <None Include="GLSL\textura.vs">
       <Filter>GLSL</Filter>
     </None>
-    <None Include="OFF\cuadrado.off">
-      <Filter>OFF</Filter>
-    </None>
     <None Include="OFF\cuadrado2.off">
       <Filter>OFF</Filter>
     </None>
@@ -83,6 +80,9 @@
     <None Include="OFF\triangulo.off">
       <Filter>OFF</Filter>
     </None>
+    <None Include="OFF\cuadradoNT.off">
+      <Filter>OFF</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stb_image.h">
@@ -109,6 +109,9 @@
       <Filter>Source Files</Filter>
     </Image>
     <Image Include="awesomeface.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="wood.png">
       <Filter>Source Files</Filter>
     </Image>
   </ItemGroup>

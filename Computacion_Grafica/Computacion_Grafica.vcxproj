@@ -152,7 +152,7 @@
     <None Include="GLSL\normalesTextura.vs" />
     <None Include="GLSL\textura.fs" />
     <None Include="GLSL\textura.vs" />
-    <None Include="OFF\cuadrado.off" />
+    <None Include="OFF\cuadradoNT.off" />
     <None Include="OFF\cuadrado2.off" />
     <None Include="OFF\cuadradoCT.off" />
     <None Include="OFF\cubo.off" />
@@ -176,6 +176,7 @@
     <Image Include="container2.png" />
     <Image Include="container2_specular.png" />
     <Image Include="wall.jpg" />
+    <Image Include="wood.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

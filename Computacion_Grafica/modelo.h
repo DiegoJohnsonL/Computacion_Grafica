@@ -46,21 +46,6 @@ public:
 	int linVertices, linIndices, linAristas;
 	int verticesTotal, indicesTotal, flotantesTotal;
 
-	// Vector de posiciones
-	int posicionesTotal;
-	glm::vec3* posiciones = nullptr;
-
-	// Vector de colores de luz
-	int coloresLuzTotal;
-	glm::vec3* coloresLuz = nullptr;
-
-	// Matrices de transformacion
-	glm::mat4 vista = glm::mat4(1.0);
-	glm::mat4 proyeccion = glm::mat4(1.0);
-	glm::vec3 colores = glm::vec3(1.0);
-	glm::mat4 modelo = glm::mat4(1.0);
-	//------------------------------------------------------------------------
-
 	Tipo tipo;
 	string name, filePath;
 
@@ -144,7 +129,8 @@ public:
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+			//glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 			glGenerateMipmap(GL_TEXTURE_2D);	
 
 			stbi_image_free(data);
@@ -169,25 +155,6 @@ public:
 		}
 	}
 
-	//------------------------------------------------------------------------
-	// Configurar el Shader
-
-	// Matrices en valor por defecto
-	void defaultMatrices() {
-		vista = glm::mat4(1.0);
-		proyeccion = glm::mat4(1.0);
-		colores = glm::vec3(1.0);
-		modelo = glm::mat4(1.0);
-	}
-
-	// Aplicar matrices al shader
-	void setMatrices(CProgramaShaders& shader) {
-		shader.setMat4("vista", vista);
-		shader.setMat4("proyeccion", proyeccion);
-		shader.setVec3("colores", colores);
-		shader.setMat4("modelo", modelo); //*/
-	}
-
 	// Establecer valores condicionales de los Shaders
 	void setShaderConditionals(CProgramaShaders& shader) {
 		shader.setFloat("mixValue", mixValue); // Valor de mezcla de ambas texturas
@@ -207,7 +174,6 @@ public:
 		shader.setInt("texture2", 1);
 	}
 
-
 	// Movimiento del objeto
 	void movement() {
 		xPos += xVel;
@@ -220,15 +186,6 @@ public:
 		if (xPos > (limit - sizeObject) + abs(sizeObject * multiplier) || xPos < (sizeObject - limit) - abs(sizeObject * multiplier)) xVel *= -1;
 		if (yPos > (limit - sizeObject) + abs(sizeObject * multiplier) || yPos < (sizeObject - limit) - abs(sizeObject * multiplier)) yVel *= -1;
 		if (zPos > (limit - sizeObject) + abs(sizeObject * multiplier) || zPos < (sizeObject - limit) - abs(sizeObject * multiplier)) zVel *= -1;
-	}
-
-	// Copiar arreglo exterior al arreglo de punteros interior segun el nombre del arreglo
-	template <typename T, size_t n>
-	void setArrayName(string name, T(&theArray)[n]) {
-		//if (name == "vertices") setArray(theArray, vertices, verticesTotal);
-		//if (name == "indices") setArray(theArray, indices, indicesTotal);
-		if (name == "posiciones") setArray(theArray, posiciones, posicionesTotal);
-		if (name == "coloresLuz") setArray(theArray, coloresLuz, coloresLuzTotal);
 	}
 
 private:	

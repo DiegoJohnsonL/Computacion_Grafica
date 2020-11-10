@@ -42,7 +42,7 @@ struct SpotLight {
     vec3 specular;       
 };
 
-#define NR_POINT_LIGHTS 4
+#define NR_POINT_LIGHTS 1
 
 in vec4 colorVertice;
 in vec3 FragPos;
@@ -83,6 +83,8 @@ void main(){
     
     // * colorVertice
     FragColor = vec4(result, 1.0);
+    float gamma = 2.2;
+    //FragColor.rgb = pow(FragColor.rgb, vec3(1.0/gamma));
 }
 
 // calculates the color when using a directional light.
