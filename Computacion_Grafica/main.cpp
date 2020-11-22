@@ -120,10 +120,10 @@ int main() {
 	};
 
 	glm::vec3 pointLightColors[] = {
-	glm::vec3(0.1f, 0.1f, 0.1f),
-	glm::vec3(0.1f, 0.1f, 0.1f),
-	glm::vec3(0.1f, 0.1f, 0.1f),
-	glm::vec3(0.3f, 0.1f, 0.1f)
+	glm::vec3(0.9f, 0.9f, 0.9f),
+	glm::vec3(0.9f, 0.9f, 0.9f),
+	glm::vec3(0.9f, 0.9f, 0.9f),
+	glm::vec3(0.9f, 0.9f, 0.1f)
 	};
 
 	//Cubo
@@ -247,6 +247,7 @@ int main() {
 			model = glm::translate(model, pointLightPositions[i]);
 			model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
 			lightShader.setMat4("modelo", model);
+			//lightShader.setMat4("color", model);
 			light.draw();
 		}
 		
