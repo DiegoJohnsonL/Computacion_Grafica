@@ -4,9 +4,9 @@
 https://youtu.be/XI6yQNIIIxQ
 
 Integrantes - procentaje:
-Roberto Vega   u201210455 - 33%
+Roberto Vega   u201210455 - 33% /n
 Franco Gallegos   u201610256 - 33%
-Diego Johnson   u201714835 - 33%
+ Diego Johnson   u201714835 - 33%
 
 
 ## Utilización
