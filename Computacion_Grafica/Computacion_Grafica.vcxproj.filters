@@ -83,12 +83,6 @@
     <None Include="OFF\triangulo.off">
       <Filter>OFF</Filter>
     </None>
-    <None Include="model.vs">
-      <Filter>GLSL</Filter>
-    </None>
-    <None Include="model.fs">
-      <Filter>GLSL</Filter>
-    </None>
     <None Include="sueloNT.off">
       <Filter>OFF</Filter>
     </None>
@@ -103,6 +97,9 @@
     </None>
     <None Include="GLSL\sombra.vs">
       <Filter>GLSL</Filter>
+    </None>
+    <None Include="assimp-vc142-mtd.dll">
+      <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

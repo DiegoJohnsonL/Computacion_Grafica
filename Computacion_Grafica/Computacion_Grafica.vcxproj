@@ -146,6 +146,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assimp-vc142-mtd.dll" />
     <None Include="GLSL\colorTextura.fs" />
     <None Include="GLSL\colorTextura.vs" />
     <None Include="GLSL\normalesTextura.fs" />
@@ -156,8 +157,6 @@
     <None Include="GLSL\sombra.vs" />
     <None Include="GLSL\textura.fs" />
     <None Include="GLSL\textura.vs" />
-    <None Include="model.fs" />
-    <None Include="model.vs" />
     <None Include="OFF\cuadrado.off" />
     <None Include="OFF\cuadrado2.off" />
     <None Include="OFF\cuadradoCT.off" />

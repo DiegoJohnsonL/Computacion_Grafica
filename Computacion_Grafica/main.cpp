@@ -108,7 +108,7 @@ int main() {
 
 	// Arreglo de posiciones de las lamparas
 	glm::vec3 pointLightPositions[] = {
-		glm::vec3(0.7f,  4.0f,  2.0f),
+		glm::vec3(0.6f,  4.0f,  2.0f),
 	};
 
 	glm::vec3 pointLightColors[] = {
@@ -133,7 +133,7 @@ int main() {
 	if (suelo.flotantesTotal == 8) suelo.tipo = Tipo::normalesTextura;
 
 	//Modelo
-	Model ourModel("Models/adamHead/adamHead.gltf");
+	//Model ourModel("Models/backpack/backpack.obj");
 
 	// Iniciando programa Shader con el vs y fs de los shapes
 	CProgramaShaders shapeShader(cubo.vertexShader(), cubo.fragmentShader());
@@ -141,9 +141,8 @@ int main() {
 	// Iniciando programa Shader con el vs y fs de la luz
 	CProgramaShaders lightShader(light.vertexShader(), light.fragmentShader());
 
-
 	// Iniciando programa Shader con el vs y fs del modelo
-	CProgramaShaders modelShader("GLSL/model.fs", "GLSL/model.vs");
+	//CProgramaShaders modelShader("GLSL/model.fs", "GLSL/model.vs");
 
 	// Configuracion del Shader para las texturas de la figura
 	shapeShader.usar();
@@ -162,18 +161,16 @@ int main() {
 		glClearColor(0.15f, 0.15f, 0.15f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		// view/projection transformations
+		glm::mat4 proyeccion = glm::perspective(glm::radians(camera.Zoom), (float)ANCHO / (float)ALTO, 0.1f, 100.0f);
+		glm::mat4 vista = camera.GetViewMatrix();
+		shapeShader.setMat4("proyeccion", proyeccion);
+		shapeShader.setMat4("vista", vista);
+
 		// USANDO PROGRAMA DEL CUBO
 		shapeShader.usar();
-
 		shapeShader.setVec3("viewPos", camera.Position);
-		shapeShader.setFloat("material.shininess", 64.0f);
-
-		/*
-		   Here we set all the uniforms for the 5/6 types of lights we have. We have to set them manually and index
-		   the proper PointLight struct in the array to set each uniform variable. This can be done more code-friendly
-		   by defining light types as classes and set their values in there, or by using a more efficient uniform approach
-		   by using 'Uniform buffer objects', but tahat is something we'll discuss in the 'Advanced GLSL' tutorial.
-		*/
+		shapeShader.setFloat("material.shininess", 64.0f);	
 		// directional light
 		shapeShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
 		shapeShader.setVec3("dirLight.ambient", 0.0f, 0.0f, 0.0f);
@@ -187,7 +184,7 @@ int main() {
 		shapeShader.setFloat("pointLights[0].constant", 1.0f);
 		shapeShader.setFloat("pointLights[0].linear", 0.14);
 		shapeShader.setFloat("pointLights[0].quadratic", 0.07);
-			// spotLight
+		// spotLight
 		shapeShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
 		shapeShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
 		shapeShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
@@ -198,12 +195,7 @@ int main() {
 		shapeShader.setFloat("spotLight.quadratic", 0.032);
 		shapeShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(10.0f)));
 		shapeShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
-
-		// view/projection transformations
-		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)ANCHO / (float)ALTO, 0.1f, 100.0f);
-		glm::mat4 view = camera.GetViewMatrix();
-		shapeShader.setMat4("proyeccion", projection);
-		shapeShader.setMat4("vista", view);
+		
 
 		for (unsigned int i = 0; i < 1; i++)
 		{
@@ -211,31 +203,28 @@ int main() {
 			glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 			model = glm::translate(model, posiciones[i]);
 			float angle = 20.0f * i;
-			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+			//model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 			model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 			shapeShader.setMat4("modelo", model);
 			cubo.draw(shapeShader);
 		}
 
-		// USANDO PROGRAMA DEL MODELO
-		modelShader.usar();
-
-		projection = glm::perspective(glm::radians(camera.Zoom), (float)ANCHO / (float)ALTO, 0.1f, 100.0f);
-		view = camera.GetViewMatrix();
-		modelShader.setMat4("projection", projection);
-		modelShader.setMat4("view", view);
-		// render the loaded model
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
-		modelShader.setMat4("model", model);
-		ourModel.Draw(modelShader);
+		//// USANDO PROGRAMA DEL MODELO
+		//modelShader.usar();
+		//modelShader.setMat4("proyeccion", proyeccion);
+		//modelShader.setMat4("vista", vista);
+		//// render the loaded model
+		//glm::mat4 model = glm::mat4(1.0f);
+		//model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0.0f)); // translate it down so it's at the center of the scene
+		//model = glm::scale(model, glm::vec3(0.00001f, 0.00001f, 0.00001f));	// it's a bit too big for our scene, so scale it down
+		//modelShader.setMat4("modelo", model);
+		//ourModel.Draw(modelShader);
 
 
 		// USANDO PROGRAMA DE LA FUENTE DE LUZ
 		lightShader.usar();
-		lightShader.setMat4("proyeccion", projection);
-		lightShader.setMat4("vista", view);
+		lightShader.setMat4("proyeccion", proyeccion);
+		lightShader.setMat4("vista", vista);
 
 		// we now draw as many light bulbs as we have point lights.
 		for (unsigned int i = 0; i < 1; i++)
@@ -247,7 +236,6 @@ int main() {
 			lightShader.setVec3("colores", pointLightColors[i]);
 			light.draw(shapeShader);
 		}		
-
 
 		glfwSwapBuffers(ventana);
 		glfwPollEvents();	
