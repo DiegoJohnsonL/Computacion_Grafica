@@ -122,7 +122,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc142-mtd.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -144,14 +144,21 @@
   <ItemGroup>
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GLSL\colorTextura.fs" />
     <None Include="GLSL\colorTextura.vs" />
     <None Include="GLSL\normalesTextura.fs" />
     <None Include="GLSL\normalesTextura.vs" />
+    <None Include="GLSL\profundidad.fs" />
+    <None Include="GLSL\profundidad.vs" />
+    <None Include="GLSL\sombra.fs" />
+    <None Include="GLSL\sombra.vs" />
     <None Include="GLSL\textura.fs" />
     <None Include="GLSL\textura.vs" />
+    <None Include="model.fs" />
+    <None Include="model.vs" />
     <None Include="OFF\cuadrado.off" />
     <None Include="OFF\cuadrado2.off" />
     <None Include="OFF\cuadradoCT.off" />
@@ -164,11 +171,14 @@
     <None Include="OFF\examenp.off" />
     <None Include="OFF\helice.off" />
     <None Include="OFF\triangulo.off" />
+    <None Include="sueloNT.off" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="modelo.h" />
-    <ClInclude Include="pshader.h" />
+    <ClInclude Include="mesh.h" />
+    <ClInclude Include="model.h" />
+    <ClInclude Include="shape.h" />
+    <ClInclude Include="shader.h" />
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>

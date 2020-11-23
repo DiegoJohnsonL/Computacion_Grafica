@@ -27,6 +27,9 @@
     <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="GLSL\colorTextura.fs">
@@ -83,18 +86,45 @@
     <None Include="OFF\triangulo.off">
       <Filter>OFF</Filter>
     </None>
+    <None Include="model.vs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="model.fs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="sueloNT.off">
+      <Filter>OFF</Filter>
+    </None>
+    <None Include="GLSL\profundidad.fs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\profundidad.vs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\sombra.fs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\sombra.vs">
+      <Filter>GLSL</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stb_image.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="modelo.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pshader.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shape.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
