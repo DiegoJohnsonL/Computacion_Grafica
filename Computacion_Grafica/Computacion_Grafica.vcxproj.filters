@@ -27,9 +27,6 @@
     <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="GLSL\colorTextura.fs">
@@ -115,16 +112,16 @@
     <ClInclude Include="Camera.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="mesh.h">
+    <ClInclude Include="shape.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="model.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="shape.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="shader.h">
+    <ClInclude Include="mesh.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

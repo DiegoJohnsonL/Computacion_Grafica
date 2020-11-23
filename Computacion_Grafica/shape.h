@@ -117,7 +117,6 @@ public:
 		shader.setBool("colorInterno", colorInterno); // Si el modelo tiene color en sus vertices
 		shader.setBool("texturaInterna", texturaInterna); // Si el modelo tiene textura en sus vertices
 
-
 		// Dibujar la superficie segun los vertices o indices
 		glBindVertexArray(VAO);
 		if (indicesTotal > 0) {
