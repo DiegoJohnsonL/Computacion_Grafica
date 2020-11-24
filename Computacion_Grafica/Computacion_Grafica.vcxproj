@@ -184,6 +184,8 @@
     <Image Include="piso.jpg" />
     <Image Include="techo.jpg" />
     <Image Include="wall.jpg" />
+    <Image Include="wall2.jpg" />
+    <Image Include="wall3.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

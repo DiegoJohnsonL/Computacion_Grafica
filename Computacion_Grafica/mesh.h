@@ -64,9 +64,9 @@ public:
             // retrieve texture number (the N in diffuse_textureN)
             string number;
             string name = textures[i].type;
-            if (name == "material.texture_diffuse")
+            if (name == "texture_diffuse")
                 number = std::to_string(diffuseNr++);
-            else if (name == "material.texture_specular")
+            else if (name == "texture_specular")
                 number = std::to_string(specularNr++); // transfer unsigned int to stream
             else if (name == "texture_normal")
                 number = std::to_string(normalNr++); // transfer unsigned int to stream
@@ -84,8 +84,10 @@ public:
         glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
-        // always good practice to set everything back to defaults once configured.
-        glActiveTexture(GL_TEXTURE0);
+        for (unsigned int i = 0; i < textures.size(); i++) {
+            glActiveTexture(GL_TEXTURE0 + i);
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
     }
 
 private:

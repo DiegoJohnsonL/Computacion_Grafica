@@ -126,5 +126,11 @@
     <Image Include="techo.jpg">
       <Filter>Source Files</Filter>
     </Image>
+    <Image Include="wall2.jpg">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="wall3.jpg">
+      <Filter>Source Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
