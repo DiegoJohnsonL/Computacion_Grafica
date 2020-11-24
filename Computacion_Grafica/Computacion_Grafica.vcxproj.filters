@@ -50,9 +50,6 @@
     <None Include="OFF\cuadrado.off">
       <Filter>OFF</Filter>
     </None>
-    <None Include="OFF\cuadrado2.off">
-      <Filter>OFF</Filter>
-    </None>
     <None Include="OFF\cuadradoCT.off">
       <Filter>OFF</Filter>
     </None>
@@ -83,18 +80,33 @@
     <None Include="OFF\triangulo.off">
       <Filter>OFF</Filter>
     </None>
+    <None Include="GLSL\model.fs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\model.vs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="OFF\cuadradoT.off">
+      <Filter>OFF</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stb_image.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="modelo.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="pshader.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>OFF</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>OFF</Filter>
+    </ClInclude>
+    <ClInclude Include="shape.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -108,7 +120,10 @@
     <Image Include="container2_specular.png">
       <Filter>Source Files</Filter>
     </Image>
-    <Image Include="awesomeface.png">
+    <Image Include="piso.jpg">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="techo.jpg">
       <Filter>Source Files</Filter>
     </Image>
   </ItemGroup>

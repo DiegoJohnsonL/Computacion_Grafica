@@ -11,8 +11,9 @@ using namespace std;
 using namespace glm;
 
 class CProgramaShaders {
-	GLuint idPrograma;
+	
 public:
+	GLuint idPrograma;
 	CProgramaShaders(string rutaShaderVertice, string rutaShaderFragmento, string rutaShaderGeometria = "") {
 		//Variables para leer los archivos
 		string strCodigoShaderVertice;

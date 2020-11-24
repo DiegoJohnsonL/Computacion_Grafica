@@ -1,5 +1,5 @@
-#include "modelo.h"
 #include "Camera.h" 
+#include "model.h"
 using namespace std;
 using namespace glm;
 
@@ -96,52 +96,78 @@ int main() {
 		cout << "Problemas al cargar GLAD\n";
 		return -1;
 	}
+	// tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
+	stbi_set_flip_vertically_on_load(true);
 
-	// Arreglo de posiciones de los cubos
-	glm::vec3 posiciones[] = {
-		glm::vec3(0.0,  0.0,  0.0),
-		glm::vec3(2.0,  5.0, -15.0),
-		glm::vec3(-1.5, -2.2, -2.5),
-		glm::vec3(-3.8, -2.0, -12.3),
-		glm::vec3(2.4, -0.4, -3.5),
-		glm::vec3(-1.7,  3.0, -7.5),
-		glm::vec3(1.3, -2.0, -2.5),
-		glm::vec3(1.5,  2.0, -2.5),
-		glm::vec3(1.5,  0.2, -1.5),
-		glm::vec3(-1.3,  1.0, -1.5)
-	};
+	
 
-	// Arreglo de posiciones de las lamparas
-	glm::vec3 pointLightPositions[] = {
-	   glm::vec3(0.7f,  0.2f,  2.0f),
-		glm::vec3(2.3f, -3.3f, -4.0f),
-		glm::vec3(-4.0f,  2.0f, -12.0f),
-		glm::vec3(0.0f,  0.0f, -3.0f)
-	};
-
-	glm::vec3 pointLightColors[] = {
-	glm::vec3(0.1f, 0.1f, 0.1f),
-	glm::vec3(0.1f, 0.1f, 0.1f),
-	glm::vec3(0.1f, 0.1f, 0.1f),
-	glm::vec3(0.3f, 0.1f, 0.1f)
-	};
 	//glEnable(GL_FRAMEBUFFER_SRGB);
 	//Cubo
-	CModel cubo("OFF/cuboNT.off"); // iniciando y cargando el off
-	cubo.setArrayName("posiciones", posiciones); // cargar posiciones
+	Shape cubo("OFF/cuboNT.off"); // iniciando y cargando el off
 	cubo.setBuffers(); // definiendo los atributos de la figura
 	cubo.loadTextures("container2.png", "container2_specular.png"); // Cargar Texturas
 
-	// Figura 2 - Lampara
-	CModel light("OFF/cubo2.off");
-	light.setArrayName("posiciones", pointLightPositions);
-	light.setBuffers();
+	//Piso
+	Shape piso("OFF/cuadradoT.off");
+	piso.setBuffers();
+	piso.loadTextures("piso.jpg");
+
+	//techo
+	Shape techo("OFF/cuadradoT.off");
+	techo.setBuffers();
+	techo.loadTextures("techo.jpg");
+
+	//paredes
+	Shape pared("OFF/cuadradoT.off");
+	pared.setBuffers();
+	pared.loadTextures("wall.jpg");
+
+	// Luz- Lampara
+	Shape luz("OFF/esfera.off");
+	luz.setBuffers();
+
+	//Modelo 1 - mochila
+	Model mochila("Modelos/backpack/backpack.obj");
+
+
+	// Arreglo de posiciones de los cubos
+	glm::vec3 posicionesCubo[] = {
+		glm::vec3(0.0,  -0.5,  0.0),
+	};
+	cubo.posicionesTotal = sizeof(posicionesCubo) / sizeof(posicionesCubo[0]);
+
+	// Arreglo de posiciones de las lamparas
+	glm::vec3 pointLightPositions[] = {
+	   glm::vec3(0.7f,  0.5f,  1.0f),
+	};
+	luz.posicionesTotal = sizeof(pointLightPositions) / sizeof(pointLightPositions[0]);
+
+	glm::vec3 pointLightColors[] = {
+	   glm::vec3(0.9f, 0.1f, 0.9f),
+	};
+	luz.coloresLuzTotal = sizeof(pointLightColors) / sizeof(pointLightColors[0]);
+
+	glm::vec3 posicionesParedes[] = {
+	   glm::vec3(8.0f, 2.0f, 0.0f), 
+	   glm::vec3(-8.0f, 2.0f, 0.0f), 
+	   glm::vec3(0.0f, 2.0f, 8.0f), 
+	   glm::vec3(0.0f, 2.0f, -8.0f)	
+	};
+	pared.posicionesTotal = sizeof(posicionesParedes) / sizeof(posicionesParedes[0]);
+
 
 	// Iniciando programa Shader con el vs y fs de la figura
 	CProgramaShaders cuboShader(cubo.vertexShader(), cubo.fragmentShader());
 
 	// Iniciando programa Shader con el vs y fs de la luz
-	CProgramaShaders lightShader(light.vertexShader(), light.fragmentShader());
+	CProgramaShaders luzShader(luz.vertexShader(), luz.fragmentShader());
+
+	// Iniciando programa Shader con el vs y fs de la piso
+	CProgramaShaders roomShader(piso.vertexShader(), piso.fragmentShader());
+
+	// Iniciando programa Shader con el vs y fs de los modelos
+	CProgramaShaders ourShader("GLSL/model.vs", "GLSL/model.fs");
+
 
 	// Configuracion del Shader para las texturas de la figura
 	cubo.shaderConfiguration(cuboShader);
@@ -155,26 +181,18 @@ int main() {
 		//---------------------
 
 		procesarEntrada(ventana);
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		cubo.bindTexture();
 
 		// USANDO PROGRAMA DEL CUBO
 		cuboShader.usar();
-
 		cuboShader.setVec3("viewPos", camera.Position);
 		cuboShader.setFloat("material.shininess", 32.0f);
 
-		/*
-		   Here we set all the uniforms for the 5/6 types of lights we have. We have to set them manually and index
-		   the proper PointLight struct in the array to set each uniform variable. This can be done more code-friendly
-		   by defining light types as classes and set their values in there, or by using a more efficient uniform approach
-		   by using 'Uniform buffer objects', but that is something we'll discuss in the 'Advanced GLSL' tutorial.
-		*/
 		// directional light
 		cuboShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
 		cuboShader.setVec3("dirLight.ambient", 0.0f, 0.0f, 0.0f);
-		cuboShader.setVec3("dirLight.diffuse", 0.05f, 0.05f, 0.05);
+		cuboShader.setVec3("dirLight.diffuse", 0.05f, 0.05f, 0.05f);
 		cuboShader.setVec3("dirLight.specular", 0.2f, 0.2f, 0.2f);
 		// point light 1
 		cuboShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
@@ -184,30 +202,6 @@ int main() {
 		cuboShader.setFloat("pointLights[0].constant", 1.0f);
 		cuboShader.setFloat("pointLights[0].linear", 0.14);
 		cuboShader.setFloat("pointLights[0].quadratic", 0.07);
-		// point light 2
-		cuboShader.setVec3( "pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-		cuboShader.setVec3( "pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
-		cuboShader.setVec3( "pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-		cuboShader.setVec3( "pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-		cuboShader.setFloat("pointLights[1].constant", 1.0f);
-		cuboShader.setFloat("pointLights[1].linear", 0.14);
-		cuboShader.setFloat("pointLights[1].quadratic", 0.07);
-		// point light 3
-		cuboShader.setVec3( "pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-		cuboShader.setVec3( "pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
-		cuboShader.setVec3( "pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-		cuboShader.setVec3( "pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-		cuboShader.setFloat("pointLights[2].constant", 1.0f);
-		cuboShader.setFloat("pointLights[2].linear", 0.22);
-		cuboShader.setFloat("pointLights[2].quadratic", 0.20);
-		// point light 4
-		cuboShader.setVec3( "pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-		cuboShader.setVec3( "pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
-		cuboShader.setVec3( "pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-		cuboShader.setVec3( "pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-		cuboShader.setFloat("pointLights[3].constant", 1.0f);
-		cuboShader.setFloat("pointLights[3].linear", 0.14);
-		cuboShader.setFloat("pointLights[3].quadratic", 0.07);
 		// spotLight
 		cuboShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
 		cuboShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
@@ -223,36 +217,81 @@ int main() {
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)ANCHO / (float)ALTO, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
-		cuboShader.setMat4("proyeccion", projection);
-		cuboShader.setMat4("vista", view);
-		for (unsigned int i = 0; i < 10; i++)
+		cubo.proyeccion = projection;
+		cubo.vista = view;
+		for (unsigned int i = 0; i < cubo.posicionesTotal; i++)
 		{
 			// calculate the model matrix for each object and pass it to shader before drawing
-			glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-			model = glm::translate(model, posiciones[i]);
+			cubo.modelo = mat4(1.0f); // make sure to initialize matrix to identity matrix first
+			cubo.modelo = scale(cubo.modelo, vec3(0.5f,0.5f,0.5f));
+			cubo.modelo = translate(cubo.modelo, posicionesCubo[i]);
 			float angle = 20.0f * i;
-			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-			cuboShader.setMat4("modelo", model);
-			cubo.draw();
+			//cubo.modelo = rotate(cubo.modelo, radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+			cubo.draw(cuboShader);
 		}
 
-		lightShader.usar();
-		lightShader.setMat4("proyeccion", projection);
-		lightShader.setMat4("vista", view);
+		// USANDO EL PROGRAMA DEl PISO
+		roomShader.usar();
 
-		// we now draw as many light bulbs as we have point lights.
-		for (unsigned int i = 0; i < 4; i++)
-		{
-			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, pointLightPositions[i]);
-			model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
-			lightShader.setMat4("modelo", model);
-			light.draw();
-		}
+		piso.proyeccion = projection;
+		piso.vista = view;
+		piso.modelo = glm::mat4(1.0f);
+		piso.modelo = glm::translate(piso.modelo, glm::vec3(0.0f, 0.0f, 0.0f));
+		piso.modelo = glm::scale(piso.modelo, vec3(2.0f, 1.0f, 2.0f));			
+		piso.draw(roomShader);
 		
-		// USANDO PROGRAMA DE LA FUENTE DE LUZ
+		techo.proyeccion = projection;
+		techo.vista = view;
+		techo.modelo = glm::mat4(1.0f);
+		techo.modelo = glm::translate(techo.modelo, glm::vec3(0.0f, 6.0f, 0.0f));
+		techo.modelo = glm::scale(techo.modelo, vec3(2.0f, 1.0f, 2.0f));
+		techo.draw(roomShader);
 
-		lightShader.usar();
+		pared.proyeccion = projection;
+		pared.vista = view;
+		for (unsigned int i = 0; i < pared.posicionesTotal; i++)
+		{
+			pared.modelo = glm::mat4(1.0f);
+			pared.modelo = glm::translate(pared.modelo, posicionesParedes[i]);
+			if (i < 2) {
+				pared.modelo = rotate(pared.modelo, radians(90.0f), vec3(0.0f, 0.0f, 1.0f));
+				pared.modelo = glm::scale(pared.modelo, vec3(1.0f, 0.0f, 2.0f));
+			}
+			else {
+				pared.modelo = rotate(pared.modelo, radians(90.0f), vec3(1.0f, 0.0f, 0.0f));
+				pared.modelo = glm::scale(pared.modelo, vec3(2.0f, 0.0f, 1.0f));
+			}
+			pared.draw(roomShader);
+		}
+				
+
+		// USANDO EL PROGRAMA DE FUNENTE DE LUZ
+		luzShader.usar();
+		luz.proyeccion = projection;
+		luz.vista = view;		
+		for (unsigned int i = 0; i < luz.coloresLuzTotal; i++)
+		{
+			luz.modelo = glm::mat4(1.0f);
+			luz.modelo = glm::translate(luz.modelo, pointLightPositions[i]);
+			luz.modelo = glm::scale(luz.modelo, vec3(0.12f)); // Make it a smaller cube
+			luz.colores = pointLightColors[i];
+			luz.draw(luzShader);
+		}
+
+
+		//  USANDO EL PROGRAMA DE LOS MODELOS
+		ourShader.usar();
+		// view/projection transformations
+		ourShader.setMat4("projection", projection);
+		ourShader.setMat4("view", view);
+		// render the loaded model
+		mat4 model = mat4(1.0f);
+		model = scale(model, glm::vec3(0.1f));// it's a bit too big for our scene, so scale it down
+		model = translate(model, glm::vec3(0.0f, 1.0f, 0.0f)); // translate it down so it's at the center of the scene			
+		model = rotate(model, radians(90.0f), vec3(-1.0f, 0.0f, 0.0f));
+		ourShader.setMat4("model", model);
+		mochila.Draw(ourShader);
+
 
 
 		glfwSwapBuffers(ventana);
@@ -261,7 +300,7 @@ int main() {
 
 	//librerando memoria
 	cubo.freeMemory();
-	cubo.~CModel();
+	cubo.~Shape();
 	cuboShader.~CProgramaShaders();
 	glfwTerminate();
 	return 0;
