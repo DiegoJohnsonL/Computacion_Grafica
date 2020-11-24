@@ -21,4 +21,4 @@ OFF y GLSL en el proyecto.
 
 - Linkear las bibliotecas e includes en la configuracion del proyexto y agregar las siguientes dependencias adicionales: assimp-vc142-mtd.lib; glfw3.lib; opengl32.lib;
 
--Ejecutar el projecto con una configuracion de x64.
+- Ejecutar el projecto con una configuracion de x64.
