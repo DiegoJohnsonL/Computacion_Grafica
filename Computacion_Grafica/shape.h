@@ -118,6 +118,10 @@ public:
 			glDrawArrays(GL_TRIANGLES, 0, linVertices);
 		}
 		glBindVertexArray(0);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, 0);
 		
 	}
 

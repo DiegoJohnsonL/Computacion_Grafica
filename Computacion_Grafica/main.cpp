@@ -197,7 +197,7 @@ int main() {
 		//---------------------
 		
 		procesarEntrada(ventana);
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(0.1f, 0.1f, 0.1f, 0.1f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// USANDO PROGRAMA DEL CUBO
@@ -207,47 +207,47 @@ int main() {
 
 		// directional light
 		shapeShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-		shapeShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
-		shapeShader.setVec3("dirLight.diffuse", 0.05f, 0.05f, 0.05);
+		shapeShader.setVec3("dirLight.ambient", 0.0f, 0.0f, 0.0f);
+		shapeShader.setVec3("dirLight.diffuse", 0.005f, 0.005f, 0.005);
 		shapeShader.setVec3("dirLight.specular", 0.2f, 0.2f, 0.2f);
 		// point light 1
-		shapeShader.setVec3("pointLights[0].position", posicionesLuz[0].x, posicionesLuz[0].y, posicionesLuz[0].z);
-		shapeShader.setVec3("pointLights[0].ambient", posicionesLuz[0].x * 0.1, posicionesLuz[0].y * 0.1, posicionesLuz[0].z * 0.1);
-		shapeShader.setVec3("pointLights[0].diffuse", posicionesLuz[0].x, posicionesLuz[0].y, posicionesLuz[0].z);
-		shapeShader.setVec3("pointLights[0].specular", posicionesLuz[0].x, posicionesLuz[0].y, posicionesLuz[0].z);
+		shapeShader.setVec3("pointLights[0].position", colorluces[0].x, colorluces[0].y, colorluces[0].z);
+		shapeShader.setVec3("pointLights[0].ambient", colorluces[0].x * 0.1, colorluces[0].y * 0.1, colorluces[0].z * 0.1);
+		shapeShader.setVec3("pointLights[0].diffuse", colorluces[0].x, colorluces[0].y, colorluces[0].z);
+		shapeShader.setVec3("pointLights[0].specular", colorluces[0].x, colorluces[0].y, colorluces[0].z);
 		shapeShader.setFloat("pointLights[0].constant", 1.0f);
 		shapeShader.setFloat("pointLights[0].linear", 0.14);
 		shapeShader.setFloat("pointLights[0].quadratic", 0.07);
 		// point light 2
-		shapeShader.setVec3("pointLights[1].position", posicionesLuz[1].x, posicionesLuz[1].y, posicionesLuz[1].z);
-		shapeShader.setVec3("pointLights[1].ambient", posicionesLuz[1].x * 0.1, posicionesLuz[1].y * 0.1, posicionesLuz[1].z * 0.1);
-		shapeShader.setVec3("pointLights[1].diffuse", posicionesLuz[1].x, posicionesLuz[1].y, posicionesLuz[1].z);
-		shapeShader.setVec3("pointLights[1].specular", posicionesLuz[1].x, posicionesLuz[1].y, posicionesLuz[1].z);
+		shapeShader.setVec3("pointLights[1].position", colorluces[1].x, colorluces[1].y, colorluces[1].z);
+		shapeShader.setVec3("pointLights[1].ambient", colorluces[1].x * 0.1, colorluces[1].y * 0.1, colorluces[1].z * 0.1);
+		shapeShader.setVec3("pointLights[1].diffuse", colorluces[1].x, colorluces[1].y, colorluces[1].z);
+		shapeShader.setVec3("pointLights[1].specular", colorluces[1].x, colorluces[1].y, colorluces[1].z);
 		shapeShader.setFloat("pointLights[1].constant", 1.0f);
 		shapeShader.setFloat("pointLights[1].linear", 0.14);
 		shapeShader.setFloat("pointLights[1].quadratic", 0.07);
 		// point light 3
-		shapeShader.setVec3("pointLights[2].position", posicionesLuz[2].x, posicionesLuz[2].y, posicionesLuz[2].z);
-		shapeShader.setVec3("pointLights[2].ambient", posicionesLuz[2].x * 0.1, posicionesLuz[2].y * 0.1, posicionesLuz[2].z * 0.1);
-		shapeShader.setVec3("pointLights[2].diffuse", posicionesLuz[2].x, posicionesLuz[2].y, posicionesLuz[2].z);
-		shapeShader.setVec3("pointLights[2].specular", posicionesLuz[2].x, posicionesLuz[2].y, posicionesLuz[2].z);
+		shapeShader.setVec3("pointLights[2].position", colorluces[2].x, colorluces[2].y, colorluces[2].z);
+		shapeShader.setVec3("pointLights[2].ambient", colorluces[2].x * 0.1, colorluces[2].y * 0.1, colorluces[2].z * 0.1);
+		shapeShader.setVec3("pointLights[2].diffuse", colorluces[2].x, colorluces[2].y, colorluces[2].z);
+		shapeShader.setVec3("pointLights[2].specular", colorluces[2].x, colorluces[2].y, colorluces[2].z);
 		shapeShader.setFloat("pointLights[2].constant", 1.0f);
 		shapeShader.setFloat("pointLights[2].linear", 0.14);
 		shapeShader.setFloat("pointLights[2].quadratic", 0.07);
 		// point light 4
-		shapeShader.setVec3("pointLights[3].position", posicionesLuz[3].x, posicionesLuz[3].y, posicionesLuz[3].z);
-		shapeShader.setVec3("pointLights[3].ambient", posicionesLuz[3].x * 0.1, posicionesLuz[3].y * 0.1, posicionesLuz[3].z * 0.1);
-		shapeShader.setVec3("pointLights[3].diffuse", posicionesLuz[3].x, posicionesLuz[3].y, posicionesLuz[3].z);
-		shapeShader.setVec3("pointLights[3].specular", posicionesLuz[3].x, posicionesLuz[3].y, posicionesLuz[3].z);
+		shapeShader.setVec3("pointLights[3].position", colorluces[3].x, colorluces[3].y, colorluces[3].z);
+		shapeShader.setVec3("pointLights[3].ambient", colorluces[3].x * 0.1, colorluces[3].y * 0.1, colorluces[3].z * 0.1);
+		shapeShader.setVec3("pointLights[3].diffuse", colorluces[3].x, colorluces[3].y, colorluces[3].z);
+		shapeShader.setVec3("pointLights[3].specular", colorluces[3].x, colorluces[3].y, colorluces[3].z);
 		shapeShader.setFloat("pointLights[3].constant", 1.0f);
 		shapeShader.setFloat("pointLights[3].linear", 0.14);
 		shapeShader.setFloat("pointLights[3].quadratic", 0.07);
 		// spotLight
 		shapeShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
 		shapeShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
-		shapeShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-		shapeShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
-		shapeShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+		shapeShader.setVec3("spotLight.ambient", 1.0f, 1.0f, 1.0f);
+		shapeShader.setVec3("spotLight.diffuse", 0.1f, 0.1f, 0.1f);
+		shapeShader.setVec3("spotLight.specular", 0.01f, 0.01f, 0.01f);
 		shapeShader.setFloat("spotLight.constant", 1.0f);
 		shapeShader.setFloat("spotLight.linear", 0.09);
 		shapeShader.setFloat("spotLight.quadratic", 0.032);
