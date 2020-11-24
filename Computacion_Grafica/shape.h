@@ -101,7 +101,6 @@ public:
 	}
 
 	void draw(CProgramaShaders& shader) {
-		//* Enlazar texturas segun cuantas hayan sido cargadas
 		if (numTexturas > 0) {
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texture1);
@@ -110,27 +109,24 @@ public:
 		if (numTexturas > 1) {
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, texture2);
-		} //*/
+		}
 
-		// Establecer valores condicionales de los Shaders
-		shader.setFloat("mixValue", mixValue); // Valor de mezcla de ambas texturas
-		shader.setBool("colorInterno", colorInterno); // Si el modelo tiene color en sus vertices
-		shader.setBool("texturaInterna", texturaInterna); // Si el modelo tiene textura en sus vertices
+		shader.setFloat("mixValue", mixValue); 
+		shader.setBool("colorInterno", colorInterno); 
+		shader.setBool("texturaInterna", texturaInterna); 
 
-		// Dibujar la superficie segun los vertices o indices
 		glBindVertexArray(VAO);
 		if (indicesTotal > 0) {
-			// Dibujar utilizando el arreglo de indices
+			// Dibujar arreglo de indices
 			glDrawElements(GL_TRIANGLES, indicesTotal, GL_UNSIGNED_INT, 0);
 		}
 		else {
-			// Dibujar utilizando solo el arreglo de vertices
+			// Dibujar arreglo de vertices
 			glDrawArrays(GL_TRIANGLES, 0, linVertices);
 		}
 		glBindVertexArray(0);
 	}
 
-	// Enlazar texturas segun cuantas hayan sido cargadas
 	void bindTexture() {
 		if (numTexturas > 0) {
 			glActiveTexture(GL_TEXTURE0);

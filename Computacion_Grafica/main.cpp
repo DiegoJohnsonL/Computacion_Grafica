@@ -112,7 +112,7 @@ int main() {
 	};
 
 	glm::vec3 pointLightColors[] = {
-		glm::vec3(0.9f, 0.1f, 0.9f),
+		glm::vec3(0.9f, 0.9f, 0.1f),
 	};
 
 	//Cubo
@@ -121,32 +121,33 @@ int main() {
 	cubo.loadTextures("container2.png", "container2_specular.png"); // Cargar Texturas
 
 	//Lampara
-	Shape light("OFF/cubo2.off");
+	Shape light("OFF/esfera.off");
 	light.setBuffers();
 
 	//Suelo
 	Shape suelo("OFF/sueloNT.off");
 	suelo.setBuffers();
-	suelo.loadTextures("wall.jpg");
+	suelo.loadTextures("container2.png");
 	suelo.normales = true;
 	suelo.tipo = Tipo::normales;
 	if (suelo.flotantesTotal == 8) suelo.tipo = Tipo::normalesTextura;
 
 	//Modelo
-	//Model ourModel("Models/backpack/backpack.obj");
+	Model ourModel("Models/backpack/backpack.obj");
 
 	// Iniciando programa Shader con el vs y fs de los shapes
-	CProgramaShaders shapeShader(cubo.vertexShader(), cubo.fragmentShader());
+	CProgramaShaders shaderCubo(cubo.vertexShader(), cubo.fragmentShader());
+	CProgramaShaders shaderSuelo(suelo.vertexShader(), suelo.fragmentShader());
 
 	// Iniciando programa Shader con el vs y fs de la luz
-	CProgramaShaders lightShader(light.vertexShader(), light.fragmentShader());
+	CProgramaShaders shaderIluminacion(light.vertexShader(), light.fragmentShader());
 
 	// Iniciando programa Shader con el vs y fs del modelo
-	//CProgramaShaders modelShader("GLSL/model.fs", "GLSL/model.vs");
+	CProgramaShaders shaderModelo("GLSL/model.fs", "GLSL/model.vs");
 
 	// Configuracion del Shader para las texturas de la figura
-	shapeShader.usar();
-	cubo.shaderConfiguration(shapeShader);
+	shaderCubo.usar();
+	cubo.shaderConfiguration(shaderCubo);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -161,80 +162,93 @@ int main() {
 		glClearColor(0.15f, 0.15f, 0.15f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
+		// USANDO PROGRAMA DEL CUBO
+		shaderCubo.usar();
+		shaderCubo.setVec3("viewPos", camera.Position);
+		shaderCubo.setFloat("material.shininess", 64.0f);	
+
+		// directional light
+		shaderCubo.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
+		shaderCubo.setVec3("dirLight.ambient", 0.0f, 0.0f, 0.0f);
+		shaderCubo.setVec3("dirLight.diffuse", 0.05f, 0.05f, 0.05);
+		shaderCubo.setVec3("dirLight.specular", 0.2f, 0.2f, 0.2f);
+		// point light 1
+		shaderCubo.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
+		shaderCubo.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
+		shaderCubo.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
+		shaderCubo.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
+		shaderCubo.setFloat("pointLights[0].constant", 1.0f);
+		shaderCubo.setFloat("pointLights[0].linear", 0.14);
+		shaderCubo.setFloat("pointLights[0].quadratic", 0.07);
+		// spotLight
+		shaderCubo.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
+		shaderCubo.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
+		shaderCubo.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+		shaderCubo.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+		shaderCubo.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+		shaderCubo.setFloat("spotLight.constant", 1.0f);
+		shaderCubo.setFloat("spotLight.linear", 0.09);
+		shaderCubo.setFloat("spotLight.quadratic", 0.032);
+		shaderCubo.setFloat("spotLight.cutOff", glm::cos(glm::radians(10.0f)));
+		shaderCubo.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+
 		// view/projection transformations
 		glm::mat4 proyeccion = glm::perspective(glm::radians(camera.Zoom), (float)ANCHO / (float)ALTO, 0.1f, 100.0f);
 		glm::mat4 vista = camera.GetViewMatrix();
-		shapeShader.setMat4("proyeccion", proyeccion);
-		shapeShader.setMat4("vista", vista);
-
-		// USANDO PROGRAMA DEL CUBO
-		shapeShader.usar();
-		shapeShader.setVec3("viewPos", camera.Position);
-		shapeShader.setFloat("material.shininess", 64.0f);	
-		// directional light
-		shapeShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-		shapeShader.setVec3("dirLight.ambient", 0.0f, 0.0f, 0.0f);
-		shapeShader.setVec3("dirLight.diffuse", 0.05f, 0.05f, 0.05);
-		shapeShader.setVec3("dirLight.specular", 0.2f, 0.2f, 0.2f);
-		// point light 1
-		shapeShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-		shapeShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
-		shapeShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-		shapeShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-		shapeShader.setFloat("pointLights[0].constant", 1.0f);
-		shapeShader.setFloat("pointLights[0].linear", 0.14);
-		shapeShader.setFloat("pointLights[0].quadratic", 0.07);
-		// spotLight
-		shapeShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
-		shapeShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
-		shapeShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-		shapeShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
-		shapeShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
-		shapeShader.setFloat("spotLight.constant", 1.0f);
-		shapeShader.setFloat("spotLight.linear", 0.09);
-		shapeShader.setFloat("spotLight.quadratic", 0.032);
-		shapeShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(10.0f)));
-		shapeShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
-		
+		glm::mat4 model = mat4(1.0f);
+		shaderCubo.setMat4("proyeccion", proyeccion);
+		shaderCubo.setMat4("vista", vista);
 
 		for (unsigned int i = 0; i < 1; i++)
 		{
 			// calculate the model matrix for each object and pass it to shader before drawing
-			glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+			model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 			model = glm::translate(model, posiciones[i]);
 			float angle = 20.0f * i;
-			//model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+		    model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 			model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-			shapeShader.setMat4("modelo", model);
-			cubo.draw(shapeShader);
+			shaderCubo.setMat4("modelo", model);
+			cubo.draw(shaderCubo);
 		}
 
+		shaderSuelo.usar();
+		shaderSuelo.setMat4("proyeccion", proyeccion);
+		shaderSuelo.setMat4("vista", vista);
+		model = glm::mat4(1.0f);
+		model = glm::scale(model, glm::vec3(2.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.3f, 0.0f));
+		shaderSuelo.setMat4("model", model);
+		suelo.draw(shaderSuelo);
+
+
 		//// USANDO PROGRAMA DEL MODELO
-		//modelShader.usar();
-		//modelShader.setMat4("proyeccion", proyeccion);
-		//modelShader.setMat4("vista", vista);
-		//// render the loaded model
-		//glm::mat4 model = glm::mat4(1.0f);
-		//model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0.0f)); // translate it down so it's at the center of the scene
-		//model = glm::scale(model, glm::vec3(0.00001f, 0.00001f, 0.00001f));	// it's a bit too big for our scene, so scale it down
-		//modelShader.setMat4("modelo", model);
-		//ourModel.Draw(modelShader);
+		shaderModelo.usar();
+		shaderModelo.setMat4("projection", proyeccion);
+		shaderModelo.setMat4("view", vista);
+		// render the loaded model
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(0.001f));	// it's a bit too big for our scene, so scale it down
+		shaderModelo.setMat4("model", model);
+		ourModel.Draw(shaderModelo);
 
 
 		// USANDO PROGRAMA DE LA FUENTE DE LUZ
-		lightShader.usar();
-		lightShader.setMat4("proyeccion", proyeccion);
-		lightShader.setMat4("vista", vista);
-
+		shaderIluminacion.usar();
+		shaderIluminacion.setMat4("proyeccion", proyeccion);
+		shaderIluminacion.setMat4("vista", vista);
 		// we now draw as many light bulbs as we have point lights.
 		for (unsigned int i = 0; i < 1; i++)
 		{
-			glm::mat4 model = glm::mat4(1.0f);
+			pointLightPositions[i].x = sin(glfwGetTime()) * 3.0f;
+			pointLightPositions[i].z = cos(glfwGetTime()) * 2.0f;
+			model = glm::mat4(1.0f);
 			model = glm::translate(model, pointLightPositions[i]);
 			model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
-			lightShader.setMat4("modelo", model);
-			lightShader.setVec3("colores", pointLightColors[i]);
-			light.draw(shapeShader);
+			shaderIluminacion.setMat4("modelo", model);
+			shaderIluminacion.setVec3("colores", pointLightColors[i]);
+			light.draw(shaderCubo);
 		}		
 
 		glfwSwapBuffers(ventana);
@@ -244,7 +258,7 @@ int main() {
 	//librerando memoria
 	cubo.freeMemory();
 	cubo.~Shape();
-	shapeShader.~CProgramaShaders();
+	shaderCubo.~CProgramaShaders();
 	glfwTerminate();
 	return 0;
 

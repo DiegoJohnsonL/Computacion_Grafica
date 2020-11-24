@@ -149,6 +149,8 @@
     <None Include="assimp-vc142-mtd.dll" />
     <None Include="GLSL\colorTextura.fs" />
     <None Include="GLSL\colorTextura.vs" />
+    <None Include="GLSL\model.fs" />
+    <None Include="GLSL\model.vs" />
     <None Include="GLSL\normalesTextura.fs" />
     <None Include="GLSL\normalesTextura.vs" />
     <None Include="GLSL\profundidad.fs" />

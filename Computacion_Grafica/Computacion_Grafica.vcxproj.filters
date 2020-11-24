@@ -101,6 +101,12 @@
     <None Include="assimp-vc142-mtd.dll">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="GLSL\model.fs">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="GLSL\model.vs">
+      <Filter>GLSL</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stb_image.h">
