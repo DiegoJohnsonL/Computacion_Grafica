@@ -16,8 +16,7 @@ Diego Johnson   u201714835
 
 - Descargar el projecto desde la rama de "Iluminacion Multiple"
 
-- Descargar la carpeta de modelos de este link https://drive.google.com/drive/folders/1u4g_xIXCH7d8HuL5VzqIcuDHkXJNtBbd?usp=sharing y pegarla junto con las carpetas
-OFF y GLSL en el proyecto.
+- Descargar la carpeta de modelos de este link https://drive.google.com/drive/folders/1u4g_xIXCH7d8HuL5VzqIcuDHkXJNtBbd?usp=sharing y remplazar la del proyecto.
 
 - Linkear las bibliotecas e includes en la configuracion del proyexto y agregar las siguientes dependencias adicionales: assimp-vc142-mtd.lib; glfw3.lib; opengl32.lib;
 
