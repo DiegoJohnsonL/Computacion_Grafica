@@ -101,11 +101,12 @@ public:
 	void draw(CProgramaShaders& shader) {
 
 		bindTexture();
+
+		setMatrices(shader);
 		shader.setFloat("mixValue", mixValue); 
 		shader.setBool("colorInterno", colorInterno); 
 		shader.setBool("texturaInterna", texturaInterna);
 
-		setMatrices(shader);
 
 		glBindVertexArray(VAO);
 		if (indicesTotal > 0) {
@@ -116,13 +117,8 @@ public:
 			// Dibujar utilizando solo el arreglo de vertices
 			glDrawArrays(GL_TRIANGLES, 0, linVertices);
 		}
-
 		glBindVertexArray(0);
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, 0); //*/
+		
 	}
 
 
@@ -130,7 +126,6 @@ public:
 	void loadTextures(string ruta1 = "", string ruta2 = "") {
 		// Textura 1
 		if (numTexturas > 0) {
-			stbi_set_flip_vertically_on_load(true);
 			loadTexture(ruta1, texture1);
 		}
 		if (ruta2 != "") {
